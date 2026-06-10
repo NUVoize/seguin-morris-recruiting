@@ -15,7 +15,10 @@ class Settings(BaseSettings):
     """
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        # Look up the directory tree so a single .env at the project root
+        # works whether you launch uvicorn from apps/api/ or from the repo root.
+        # If both exist, the local apps/api/.env overrides the root one.
+        env_file=("../../.env", ".env"),
         env_file_encoding="utf-8",
         extra="ignore",
         case_sensitive=False,
