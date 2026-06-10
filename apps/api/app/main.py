@@ -43,7 +43,7 @@ app = FastAPI(
 # CORS — locked down for the internal tool; widen only if a separate front-end origin is added.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_allow_origins,
+    allow_origins=settings.cors_allow_origins_list,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

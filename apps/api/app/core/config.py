@@ -68,7 +68,12 @@ class Settings(BaseSettings):
     # Comma-separated list of allowed origins. Defaults to localhost dev URL.
     # In production on Railway, set to e.g.:
     #   "https://seguin-morris-web-production.up.railway.app,http://localhost:3000"
-    cors_allow_origins: list[str] = ["http://localhost:3000"]
+    cors_allow_origins: str = "http://localhost:3000"
+
+    @property
+    def cors_allow_origins_list(self) -> list[str]:
+        """Split the comma-separated CORS origins string into a list."""
+        return [origin.strip() for origin in self.cors_allow_origins.split(",") if origin.strip()]
 
     @field_validator("database_url", mode="before")
     @classmethod
@@ -79,14 +84,6 @@ class Settings(BaseSettings):
             return v.replace("postgresql://", "postgresql+psycopg://", 1)
         if v.startswith("postgres://"):  # older Heroku-style URLs
             return v.replace("postgres://", "postgresql+psycopg://", 1)
-        return v
-
-    @field_validator("cors_allow_origins", mode="before")
-    @classmethod
-    def split_cors_origins(cls, v: str | list[str]) -> list[str]:
-        """Accept a comma-separated string from env (Railway-friendly) or a list."""
-        if isinstance(v, str):
-            return [origin.strip() for origin in v.split(",") if origin.strip()]
         return v
 
 
