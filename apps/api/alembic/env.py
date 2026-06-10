@@ -21,8 +21,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from app.core.config import settings  # noqa: E402
 from app.core.database import Base  # noqa: E402
 
-# Importing models registers them on Base.metadata. Phase 2 will populate this module.
-# from app import models  # noqa: F401  -- enable in Phase 2
+# Importing the models registry registers all models on Base.metadata
+# so autogenerate can detect them.
+import app.models  # noqa: F401, E402
 
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.database_url)

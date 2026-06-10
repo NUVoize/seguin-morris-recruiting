@@ -1,11 +1,17 @@
-"""SQLAlchemy engine, session, and Base. Used by app code and Alembic migrations."""
+"""SQLAlchemy engine, session, and Base.
+
+The declarative `Base` lives in `app.models.base` (where the models do).
+We re-export it here so existing imports `from app.core.database import Base`
+continue to work — useful for Alembic env.py and any future utilities.
+"""
 
 from collections.abc import Generator
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
+from sqlalchemy.orm import Session, sessionmaker
 
 from app.core.config import settings
+from app.models.base import Base  # re-export for backwards compatibility
 
 engine = create_engine(
     settings.database_url,
@@ -26,8 +32,8 @@ SessionLocal = sessionmaker(
 )
 
 
-class Base(DeclarativeBase):
-    """Declarative base for all ORM models. Phase 2 will register models against this."""
+# Re-export Base so `from app.core.database import Base` still works.
+__all__ = ["Base", "SessionLocal", "engine", "get_db"]
 
 
 def get_db() -> Generator[Session, None, None]:
