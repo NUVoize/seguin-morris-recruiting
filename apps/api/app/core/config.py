@@ -3,7 +3,7 @@
 from functools import lru_cache
 from typing import Literal
 
-from pydantic import Field
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -64,8 +64,30 @@ class Settings(BaseSettings):
     # --- Retention ---
     inactive_lead_retention_days: int = 365  # 12 months per spec
 
-    # --- CORS (dev wide-open; production locks down to known origins) ---
+    # --- CORS ---
+    # Comma-separated list of allowed origins. Defaults to localhost dev URL.
+    # In production on Railway, set to e.g.:
+    #   "https://seguin-morris-web-production.up.railway.app,http://localhost:3000"
     cors_allow_origins: list[str] = ["http://localhost:3000"]
+
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def normalize_database_url(cls, v: str) -> str:
+        """Railway hands out plain postgresql:// URLs; SQLAlchemy needs the
+        +psycopg driver prefix to use the modern psycopg 3 client."""
+        if v.startswith("postgresql://"):
+            return v.replace("postgresql://", "postgresql+psycopg://", 1)
+        if v.startswith("postgres://"):  # older Heroku-style URLs
+            return v.replace("postgres://", "postgresql+psycopg://", 1)
+        return v
+
+    @field_validator("cors_allow_origins", mode="before")
+    @classmethod
+    def split_cors_origins(cls, v: str | list[str]) -> list[str]:
+        """Accept a comma-separated string from env (Railway-friendly) or a list."""
+        if isinstance(v, str):
+            return [origin.strip() for origin in v.split(",") if origin.strip()]
+        return v
 
 
 @lru_cache(maxsize=1)

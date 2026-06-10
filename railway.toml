@@ -1,0 +1,13 @@
+# Railway deployment configuration.
+# Reference: https://docs.railway.com/reference/config-as-code
+#
+# This file is read by Railway when services are linked to this repo.
+# Each service can override these defaults via railway.json or the dashboard.
+
+[build]
+builder = "nixpacks"
+
+[deploy]
+healthcheckTimeout = 120
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3

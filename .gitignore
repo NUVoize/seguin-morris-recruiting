@@ -63,3 +63,6 @@ playwright/.cache/
 # --- Build artifacts ---
 coverage/
 *.tsbuildinfo
+
+# Local commit-message scratch files
+.commit-msg.tmp

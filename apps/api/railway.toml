@@ -1,0 +1,15 @@
+# Railway service config for the FastAPI backend.
+# - Build: install in editable mode via pip
+# - Start: run any pending Alembic migrations, then launch uvicorn on $PORT
+# - Health: liveness check at /api/health
+
+[build]
+builder = "nixpacks"
+buildCommand = "pip install -e ."
+
+[deploy]
+startCommand = "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+healthcheckPath = "/api/health"
+healthcheckTimeout = 60
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
