@@ -1,4 +1,8 @@
-"""LeadSource schemas — Create / Update / Read."""
+"""LeadSource schemas — Create / Update / Read.
+
+HttpUrl validation enforced on input only; Read returns plain str for permissive
+serialization of historical data.
+"""
 
 from __future__ import annotations
 
@@ -10,7 +14,7 @@ from pydantic import BaseModel, ConfigDict, Field, HttpUrl
 from app.models.enums import AccessMethod, SourceType
 
 
-class LeadSourceBase(BaseModel):
+class _LeadSourceMutableFields(BaseModel):
     name: str = Field(..., min_length=1, max_length=255)
     source_type: SourceType
     url: HttpUrl
@@ -19,7 +23,7 @@ class LeadSourceBase(BaseModel):
     notes: str | None = None
 
 
-class LeadSourceCreate(LeadSourceBase):
+class LeadSourceCreate(_LeadSourceMutableFields):
     pass
 
 
@@ -33,8 +37,14 @@ class LeadSourceUpdate(BaseModel):
     last_checked_at: datetime | None = None
 
 
-class LeadSourceRead(LeadSourceBase):
+class LeadSourceRead(BaseModel):
     id: uuid.UUID
+    name: str
+    source_type: SourceType
+    url: str  # plain string on output — DB may have URLs that don't re-validate
+    access_method: AccessMethod
+    allowed_to_scrape: bool
+    notes: str | None
     last_checked_at: datetime | None
     created_at: datetime
     updated_at: datetime

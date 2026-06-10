@@ -1,4 +1,9 @@
-"""Candidate schemas — Create / Update / Read."""
+"""Candidate schemas — Create / Update / Read.
+
+Email validation is enforced on CREATE only (EmailStr).
+READ schemas use plain `str` so historical/imported data with weird-but-valid
+addresses (e.g. .test TLDs in dev seed) doesn't crash response serialization.
+"""
 
 from __future__ import annotations
 
@@ -10,7 +15,9 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 from app.models.enums import PipelineStatus
 
 
-class CandidateBase(BaseModel):
+class _CandidateMutableFields(BaseModel):
+    """Fields shared between Create and Update — input shape, strict validation."""
+
     full_name: str | None = Field(default=None, max_length=255)
     current_title: str | None = Field(default=None, max_length=255)
     region: str | None = Field(default=None, max_length=128)
@@ -26,20 +33,15 @@ class CandidateBase(BaseModel):
         return v or None
 
 
-class CandidateCreate(CandidateBase):
-    """At minimum we need *something* to identify the candidate — name OR email OR url."""
+class CandidateCreate(_CandidateMutableFields):
+    """Strict input — at least one identifier required (checked in route layer)."""
 
     pipeline_status: PipelineStatus = PipelineStatus.NEW
 
-    @field_validator("full_name", "contact_email", "profile_url")
-    @classmethod
-    def at_least_one_identifier(cls, v, info):
-        # Cross-field validation lives in model_validator — this is just a placeholder.
-        # Real check is in the route layer for now (clearer error messages).
-        return v
-
 
 class CandidateUpdate(BaseModel):
+    """PATCH input — every field optional, EmailStr where present."""
+
     full_name: str | None = Field(default=None, max_length=255)
     current_title: str | None = Field(default=None, max_length=255)
     region: str | None = Field(default=None, max_length=128)
@@ -53,9 +55,23 @@ class CandidateUpdate(BaseModel):
     fit_summary: str | None = None
     consent_status: str | None = Field(default=None, max_length=32)
 
+    @field_validator("contact_email", mode="before")
+    @classmethod
+    def empty_string_to_none(cls, v: str | None) -> str | None:
+        return v or None
 
-class CandidateRead(CandidateBase):
+
+class CandidateRead(BaseModel):
+    """Output shape — permissive on string fields. No re-validation of stored data."""
+
     id: uuid.UUID
+    full_name: str | None
+    current_title: str | None
+    region: str | None
+    candidate_type: str
+    contact_email: str | None
+    contact_phone: str | None
+    profile_url: str | None
     pipeline_status: PipelineStatus
     fit_score: int | None
     fit_label: str | None

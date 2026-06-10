@@ -3,8 +3,8 @@ import {Link} from '@/i18n/navigation';
 import {routing} from '@/i18n/routing';
 
 /**
- * Phase 1 landing page — confirms bilingual routing works and brand chrome renders.
- * Real dashboard arrives in Phase 4.
+ * Bilingual landing page. The "Open the candidate pipeline" CTA jumps to the
+ * real Kanban board which is the first piece of actual recruiter UI.
  */
 export default async function HomePage({
   params
@@ -31,21 +31,31 @@ export default async function HomePage({
           {tHome('subtitle')}
         </p>
 
-        <div className="mt-10 flex items-center justify-center gap-3 text-sm">
-          {routing.locales.map((alt) => (
-            <Link
-              key={alt}
-              href="/"
-              locale={alt}
-              className={
-                alt === locale
-                  ? 'rounded-full bg-neutral-900 px-4 py-1.5 text-white'
-                  : 'rounded-full border border-neutral-300 px-4 py-1.5 text-neutral-700 hover:bg-neutral-100'
-              }
-            >
-              {alt.toUpperCase()}
-            </Link>
-          ))}
+        <div className="mt-10 flex flex-col items-center gap-6">
+          <Link
+            href="/candidates"
+            className="inline-flex items-center gap-2 rounded-lg bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-neutral-700"
+          >
+            {tHome('open_pipeline')}
+            <span aria-hidden>→</span>
+          </Link>
+
+          <div className="flex items-center justify-center gap-3 text-sm">
+            {routing.locales.map((alt) => (
+              <Link
+                key={alt}
+                href="/"
+                locale={alt}
+                className={
+                  alt === locale
+                    ? 'rounded-full bg-neutral-900 px-4 py-1.5 text-white'
+                    : 'rounded-full border border-neutral-300 px-4 py-1.5 text-neutral-700 hover:bg-neutral-100'
+                }
+              >
+                {alt.toUpperCase()}
+              </Link>
+            ))}
+          </div>
         </div>
 
         <footer className="mt-16 text-xs text-neutral-500">

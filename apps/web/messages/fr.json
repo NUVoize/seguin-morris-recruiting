@@ -19,7 +19,8 @@
     "title": "Plateforme de recrutement intelligent",
     "subtitle": "Trouver, qualifier et contacter les meilleurs frigoristes et techniciens CVAC-R au Québec.",
     "phase": "Phase 1 — Échafaudage en cours",
-    "language_toggle": "Changer la langue"
+    "language_toggle": "Changer la langue",
+    "open_pipeline": "Voir le pipeline des candidats"
   },
   "common": {
     "loading": "Chargement…",
@@ -30,6 +31,51 @@
     "edit": "Modifier",
     "search": "Rechercher",
     "sign_in": "Se connecter",
-    "sign_out": "Se déconnecter"
+    "sign_out": "Se déconnecter",
+    "close": "Fermer",
+    "retry": "Réessayer",
+    "no_data": "Aucune donnée pour l'instant",
+    "actions": "Actions"
+  },
+  "pipeline": {
+    "title": "Pipeline des candidats",
+    "subtitle": "Glissez une carte pour faire avancer un candidat. Cliquez pour voir le détail.",
+    "empty_column": "Vide",
+    "total_candidates": "{count, plural, =0 {Aucun candidat} =1 {1 candidat} other {# candidats}}",
+    "stages": {
+      "new": "Nouveau",
+      "to_review": "À évaluer",
+      "contacted": "Contacté",
+      "interested": "Intéressé",
+      "interview": "Entrevue",
+      "offer": "Offre",
+      "hired": "Embauché",
+      "rejected": "Refusé",
+      "archived": "Archivé"
+    },
+    "card": {
+      "no_name": "Sans nom",
+      "no_region": "Région inconnue",
+      "no_title": "Titre inconnu"
+    },
+    "detail": {
+      "title": "Détail du candidat",
+      "fit_score": "Score d'adéquation",
+      "fit_score_not_scored": "Non évalué",
+      "region": "Région",
+      "title_label": "Titre actuel",
+      "email": "Courriel",
+      "phone": "Téléphone",
+      "profile_url": "URL du profil",
+      "candidate_type": "Type de candidat",
+      "consent_status": "Statut de consentement",
+      "pipeline_status": "Étape du pipeline",
+      "change_stage": "Changer d'étape",
+      "created_at": "Créé le",
+      "last_seen_at": "Dernière activité",
+      "delete_candidate": "Supprimer le candidat",
+      "delete_confirm": "Êtes-vous certain·e de vouloir supprimer ce candidat?",
+      "vetting_reminder": "Note : le score est consultatif. Le recruteur valide les certifications avant toute décision."
+    }
   }
 }
