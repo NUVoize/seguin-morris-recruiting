@@ -1,0 +1,989 @@
+**SEGUIN MORRIS**
+ 
+**Recruiting Intelligence Platform**
+ 
+Full Claude Code / Codex Handoff Package
+ 
+**Designed by CTRL Solutions**
+ 
+*Internal bilingual multi-agent recruiting intelligence platform for refrigeration, HVAC-R, mechanical service, and mechanical construction recruiting.*
+ 
+| **Document purpose** | **Status** |
+| --- | --- |
+| Prepare a complete implementation-ready handoff for Claude Code, with Codex used as corrector/reviewer. | Ready for local inspection and implementation planning. |
+ 
+# Document Map
+ 
+Company and source context
+ 
+Product definition and scope
+ 
+Multi-agent architecture
+ 
+Technical stack and deployment
+ 
+Data model and database schema plan
+ 
+Repo structure plan
+ 
+API and module plan
+ 
+UI and branding plan
+ 
+Implementation phases
+ 
+Claude Code handoff prompt
+ 
+Codex corrector prompts
+ 
+Local implementation addendum
+ 
+Pre-code gate and next steps
+ 
+# 1. Company and Source Context
+ 
+This document is built for Seguin Morris. The app itself is designed by CTRL Solutions and should show that credit in a professional secondary location such as the footer, About page, or Admin panel.
+ 
+## Seguin Morris company context
+ 
+Seguin Morris divisions include Public Utility, Energy, Telecom, Airport, Mechanical Construction, Design-Build, and Service.
+ 
+The most relevant first recruiting target is Mechanical Construction and Service.
+ 
+The Mechanical Construction division lists plumbing, heating and refrigeration, ventilation, and specialized systems.
+ 
+The Service division lists HVAC, mechanical, electric, and public utilities.
+ 
+The contact footprint includes Gatineau, Longueuil, Montreal, Ottawa, Quebec, Mississauga, Cambridge, Kitchener, Winnipeg, Edmonton, Vancouver, Detroit, Livonia, Iowa, and Barbados.
+ 
+| **Source** | **Why it matters** |
+| --- | --- |
+| Seguin Morris Divisions page | Confirms Mechanical Construction and Service as relevant divisions and validates HVAC-R / refrigeration recruiting focus. |
+| Seguin Morris Contact page | Confirms multi-region expansion logic, including Vancouver and Detroit. |
+| Uploaded refrigeration recruiting research PDF | Confirms DEP, DEC, AEC, CCQ, SF-1, SF-2, halocarbures, ASP 30h, and recruiting channel strategy. |
+ 
+## Quebec refrigeration recruiting research context
+ 
+The most direct Quebec hiring pool is DEP Réfrigération 5386.
+ 
+Complementary technical pools include DEC Technologie de la mécanique du bâtiment 221.C0 and targeted AEC programs.
+ 
+The recruiting workflow must separate construction work under CCQ from non-construction/service work.
+ 
+The candidate vetting system must track CCQ apprentice/companion status, ASP Construction 30h, SF-1, SF-2, halocarbures, DEP, DEC, AEC, driver license, and role-specific experience.
+ 
+School outreach should target DEP centers, cégeps, AEC programs, placement offices, stage/ATE contacts, and cohort timing.
+ 
+The ideal student prospecting window starts approximately 90 to 180 days before completion and reactivates around 30 days before graduation.
+ 
+# 2. Product Definition and Scope
+ 
+The Seguin Morris Recruiting Intelligence Platform is an internal, bilingual, multi-user recruiting intelligence system. It helps recruiters find, organize, vet, rank, contact, and track qualified candidates for refrigeration, HVAC-R, mechanical service, and mechanical construction roles.
+ 
+## Decisions
+ 
+Internal tool only for Seguin Morris.
+ 
+Designed by CTRL Solutions.
+ 
+Bilingual interface, French and English.
+ 
+Multi-user with admin levels.
+ 
+Railway deployment.
+ 
+Python FastAPI backend preferred.
+ 
+PostgreSQL database.
+ 
+Gmail for mockup/testing, Microsoft 365 later.
+ 
+Fully automatic source collection where legally and technically allowed.
+ 
+Swappable LLM API provider.
+ 
+12-month inactive lead retention.
+ 
+AI web/phone assistant planned for v2, with text mockup in v1.
+ 
+Seguin Morris visual style and logo in the app.
+ 
+## V1 must-haves
+ 
+Campaign creation by role, division, region, and required qualifications.
+ 
+Candidate lead CRM and pipeline board.
+ 
+Source directory with source policy controls.
+ 
+Multi-agent system for discovery, enrichment, vetting, ranking, outreach, reporting, and assistant knowledge.
+ 
+Email-connected outreach with human approval.
+ 
+School/program/event recruiting modules.
+ 
+Admin settings for users, roles, branding, email provider, LLM provider, retention, and source policy.
+ 
+Bilingual UI strings from the start.
+ 
+Reporting dashboards for sources, campaigns, recruiters, and conversion funnel.
+ 
+## V1 explicitly excluded
+ 
+Autonomous hiring decisions.
+ 
+Autonomous mass outreach without recruiter approval.
+ 
+Full production voice assistant.
+ 
+Full ATS replacement.
+ 
+HR onboarding, payroll, timesheets, or employee records.
+ 
+Immigration workflow automation.
+ 
+Background checks.
+ 
+## V2 parking lot
+ 
+Voice web assistant.
+ 
+AI phone assistant.
+ 
+Microsoft 365 production integration.
+ 
+ATS sync.
+ 
+Calendar scheduling.
+ 
+Recruiter browser extension.
+ 
+Multi-country expansion logic.
+ 
+Other trades beyond refrigeration/HVAC-R.
+ 
+Candidate self-service portal.
+ 
+# 3. Multi-Agent Architecture
+ 
+Recruiter Dashboard
+    |
+    v
+FastAPI Backend
+    |
+    v
+Agent Orchestrator
+    |
+    |-- Employment Source Agent
+    |-- School Pipeline Agent
+    |-- Event Discovery Agent
+    |-- Lead Enrichment Agent
+    |-- Candidate Vetting Agent
+    |-- Fit Ranking Agent
+    |-- Outreach Agent
+    |-- Email Sync Agent
+    |-- Assistant Knowledge Agent
+    |-- Reporting Agent
+    |
+    v
+Human Review Queue
+    |
+    v
+Candidate Pipeline / CRM
+ 
+| **Agent** | **Responsibility** |
+| --- | --- |
+| Employment Source Agent | Find candidate leads from approved job boards, employment sites, public profile sources, company career pages, and manual/browser capture workflows. |
+| School Pipeline Agent | Find DEP, DEC, AEC programs, placement offices, stage/ATE contacts, cohort dates, open house pages, and school job boards. |
+| Event Discovery Agent | Find career fairs, HVAC-R events, construction technology events, open houses, trade competitions, association events, and regional job fairs. |
+| Lead Enrichment Agent | Deduplicate, normalize names/titles/regions, classify candidate type, detect missing data, and assign source confidence. |
+| Candidate Vetting Agent | Flag job-relevant qualification signals such as DEP, DEC, AEC, CCQ, ASP 30h, SF-1, SF-2, halocarbures, driver license, and service experience. |
+| Fit Ranking Agent | Score candidate fit against campaign requirements and explain the score. |
+| Outreach Agent | Generate editable recruiter-approved candidate, school, event, and follow-up messages in French and English. |
+| Email Sync Agent | Send approved emails, log sent messages, track replies, and keep the provider abstracted for Gmail now and Microsoft 365 later. |
+| Assistant Knowledge Agent | Power the v1 text assistant mockup and prepare the v2 voice/web assistant using approved company knowledge only. |
+| Reporting Agent | Track pipeline health, source performance, recruiter activity, response rates, and campaign conversion. |
+ 
+## Candidate fit score model
+ 
+| **Criterion** | **Weight** |
+| --- | --- |
+| Required certification match | 25 |
+| Refrigeration/HVAC-R relevance | 20 |
+| Experience level fit | 15 |
+| Region fit | 15 |
+| Service/commercial/industrial fit | 10 |
+| Contactability | 10 |
+| Recency/source quality | 5 |
+ 
+## Candidate vetting language rule
+ 
+The AI must not make final hiring decisions. It may recommend human review and identify missing checks.
+ 
+Correct:
+Strong match, but recruiter must verify SF-1 and halocarbures.
+ 
+Incorrect:
+Hire this candidate.
+Reject this candidate.
+ 
+# 4. Technical Stack and Deployment
+ 
+| **Layer** | **Decision** |
+| --- | --- |
+| Frontend | Next.js preferred, React + Vite acceptable |
+| Backend | Python FastAPI |
+| Validation | Pydantic |
+| Database | PostgreSQL |
+| ORM/Migrations | SQLAlchemy or SQLModel + Alembic |
+| Worker system | Celery + Redis preferred, Dramatiq + Redis acceptable |
+| Scraping/browser tasks | Playwright where allowed by source policy |
+| LLM providers | Swappable adapter: OpenAI, Anthropic, Gemini, Azure OpenAI, LM Studio, future provider |
+| Email | Gmail mockup/testing, Microsoft 365 later |
+| Hosting | Railway |
+| Retention | 12 months inactive lead retention |
+ 
+## Railway services
+ 
+web
+api
+worker
+postgres
+redis
+ 
+## Environment variables
+ 
+DATABASE_URL
+REDIS_URL
+JWT_SECRET
+LLM_PROVIDER
+LLM_API_KEY
+LLM_MODEL
+GMAIL_CLIENT_ID
+GMAIL_CLIENT_SECRET
+MICROSOFT365_CLIENT_ID
+MICROSOFT365_CLIENT_SECRET
+APP_ENV
+ 
+# 5. Required App Modules
+ 
+Authentication
+Users and roles
+Campaigns
+Candidates
+Pipeline board
+Sources
+Agent runs
+Schools and programs
+Events
+Outreach
+Email integration
+Reports
+Assistant mockup
+Admin settings
+Audit logs
+Branding
+ 
+# 6. Required Screens
+ 
+| **Screen** | **Purpose / contents** |
+| --- | --- |
+| Login | Logo, language toggle, email/password login, professional enterprise look. |
+| Dashboard | Active campaigns, new leads, qualified leads, outreach, replies, interviews, source performance, agent runs. |
+| Campaigns | List, create, edit, pause, close, and launch agent runs. |
+| Campaign Detail | Tabs for Overview, Candidates, Schools, Events, Agent Runs, Outreach, Reports. |
+| Candidate Pipeline | Kanban stages: New, To Review, Contacted, Interested, Interview, Offer, Hired, Rejected, Archived. |
+| Candidate Detail | Profile, fit score, explanation, source mentions, qualifications, notes, outreach history, audit trail. |
+| Schools & Programs | Institution, program, program type, region, contact info, cohort dates, last contacted, recommended next action. |
+| Events | Event name, date, location, audience, recruiting value score, recommended action. |
+| Outreach Composer | Template selector, French/English toggle, editable subject/body, send and save draft actions. |
+| Assistant Mockup | Chat interface, suggested questions, approved source/category display, safe unknown response. |
+| Admin | Users, roles, branding, email provider, LLM provider, source rules, retention rules, audit logs. |
+ 
+# 7. Database Schema Plan
+ 
+Use PostgreSQL. The initial schema should support candidates, campaigns, users, sources, school programs, events, agent runs, outreach, assistant knowledge, email settings, LLM settings, branding, audit logs, and retention jobs.
+ 
+### users
+ 
+id UUID primary key
+full_name TEXT not null
+email TEXT unique not null
+role_id UUID references roles(id)
+preferred_language TEXT default 'fr'
+status TEXT default 'active'
+created_at TIMESTAMP
+updated_at TIMESTAMP
+ 
+### roles
+ 
+id UUID primary key
+name TEXT unique not null
+permissions JSONB not null
+created_at TIMESTAMP
+updated_at TIMESTAMP
+ 
+### campaigns
+ 
+id UUID primary key
+title TEXT not null
+division TEXT not null
+role_type TEXT not null
+region TEXT not null
+employment_type TEXT
+requirements JSONB not null
+status TEXT default 'draft'
+created_by UUID references users(id)
+created_at TIMESTAMP
+updated_at TIMESTAMP
+ 
+### candidates
+ 
+id UUID primary key
+full_name TEXT
+current_title TEXT
+region TEXT
+candidate_type TEXT default 'unknown'
+contact_email TEXT
+contact_phone TEXT
+profile_url TEXT
+fit_score INTEGER
+fit_label TEXT
+fit_summary TEXT
+source_confidence INTEGER
+pipeline_status TEXT default 'new'
+consent_status TEXT default 'unknown'
+last_seen_at TIMESTAMP
+created_at TIMESTAMP
+updated_at TIMESTAMP
+ 
+### campaign_candidates
+ 
+id UUID primary key
+campaign_id UUID references campaigns(id)
+candidate_id UUID references candidates(id)
+assigned_to UUID references users(id)
+status TEXT default 'active'
+created_at TIMESTAMP
+updated_at TIMESTAMP
+unique(campaign_id, candidate_id)
+ 
+### candidate_qualifications
+ 
+id UUID primary key
+candidate_id UUID references candidates(id)
+qualification_type TEXT not null
+qualification_status TEXT not null
+evidence_text TEXT
+source_url TEXT
+verified_by_user_id UUID references users(id)
+created_at TIMESTAMP
+updated_at TIMESTAMP
+ 
+### lead_sources
+ 
+id UUID primary key
+name TEXT not null
+source_type TEXT not null
+url TEXT not null
+access_method TEXT not null
+allowed_to_scrape BOOLEAN default false
+notes TEXT
+last_checked_at TIMESTAMP
+created_at TIMESTAMP
+updated_at TIMESTAMP
+ 
+### source_mentions
+ 
+id UUID primary key
+candidate_id UUID references candidates(id)
+source_id UUID references lead_sources(id)
+source_url TEXT not null
+excerpt TEXT
+captured_at TIMESTAMP
+ 
+### agent_runs
+ 
+id UUID primary key
+campaign_id UUID references campaigns(id)
+agent_type TEXT not null
+status TEXT not null
+input_payload JSONB
+output_summary TEXT
+error_log JSONB
+started_at TIMESTAMP
+completed_at TIMESTAMP
+created_by UUID references users(id)
+ 
+### outreach_events
+ 
+id UUID primary key
+campaign_id UUID references campaigns(id)
+candidate_id UUID references candidates(id)
+school_program_id UUID references school_programs(id)
+channel TEXT not null
+direction TEXT not null
+subject TEXT
+body TEXT
+language TEXT default 'fr'
+status TEXT not null
+provider TEXT
+provider_message_id TEXT
+sent_by_user_id UUID references users(id)
+sent_at TIMESTAMP
+created_at TIMESTAMP
+updated_at TIMESTAMP
+ 
+### school_programs
+ 
+id UUID primary key
+institution_name TEXT not null
+program_name TEXT not null
+program_type TEXT not null
+city TEXT
+province TEXT
+country TEXT default 'Canada'
+public_contact_name TEXT
+public_contact_email TEXT
+public_contact_phone TEXT
+cohort_start DATE
+cohort_end DATE
+notes TEXT
+created_at TIMESTAMP
+updated_at TIMESTAMP
+ 
+### recruiting_events
+ 
+id UUID primary key
+name TEXT not null
+event_type TEXT not null
+date_start DATE
+date_end DATE
+location TEXT
+city TEXT
+province TEXT
+country TEXT
+audience TEXT
+contact_name TEXT
+contact_email TEXT
+source_url TEXT
+recruiting_value_score INTEGER
+recommended_action TEXT
+created_at TIMESTAMP
+updated_at TIMESTAMP
+ 
+### notes
+ 
+id UUID primary key
+entity_type TEXT not null
+entity_id UUID not null
+body TEXT not null
+created_by UUID references users(id)
+created_at TIMESTAMP
+updated_at TIMESTAMP
+ 
+### knowledge_documents
+ 
+id UUID primary key
+title TEXT not null
+category TEXT not null
+language TEXT not null
+source TEXT
+content TEXT not null
+status TEXT default 'active'
+created_by UUID references users(id)
+created_at TIMESTAMP
+updated_at TIMESTAMP
+ 
+### assistant_queries
+ 
+id UUID primary key
+user_id UUID references users(id)
+question TEXT not null
+answer TEXT
+language TEXT
+sources JSONB
+created_at TIMESTAMP
+ 
+### brand_settings
+ 
+id UUID primary key
+company_name TEXT default 'Seguin Morris'
+primary_color TEXT
+secondary_color TEXT
+accent_color TEXT
+logo_url TEXT
+designed_by_label TEXT default 'Designed by CTRL Solutions'
+created_at TIMESTAMP
+updated_at TIMESTAMP
+ 
+### llm_settings
+ 
+id UUID primary key
+provider TEXT not null
+model_name TEXT not null
+base_url TEXT
+api_key_secret_name TEXT
+is_active BOOLEAN default true
+settings JSONB
+created_at TIMESTAMP
+updated_at TIMESTAMP
+ 
+### email_settings
+ 
+id UUID primary key
+provider TEXT not null
+account_email TEXT
+is_active BOOLEAN default true
+settings JSONB
+created_at TIMESTAMP
+updated_at TIMESTAMP
+ 
+### audit_logs
+ 
+id UUID primary key
+user_id UUID references users(id)
+action TEXT not null
+entity_type TEXT
+entity_id UUID
+metadata JSONB
+created_at TIMESTAMP
+ 
+### retention_jobs
+ 
+id UUID primary key
+job_type TEXT not null
+status TEXT not null
+records_affected INTEGER default 0
+started_at TIMESTAMP
+completed_at TIMESTAMP
+error_log JSONB
+ 
+## Qualification and source enums
+ 
+qualification_type:
+DEP
+DEC
+AEC
+CCQ_APPRENTICE
+CCQ_COMPANION
+ASP_30H
+SF1
+SF2
+HALOCARBURES
+RBQ
+DRIVER_LICENSE
+UNKNOWN
+ 
+qualification_status:
+confirmed
+claimed
+inferred
+missing
+unknown
+ 
+source_type:
+job_board
+school
+association
+event
+social
+company_site
+government
+manual
+ 
+access_method:
+api
+public_page
+browser_automation
+manual_import
+browser_capture
+ 
+agent_type:
+employment_source
+school_pipeline
+event_discovery
+lead_enrichment
+candidate_vetting
+fit_ranking
+outreach
+email_sync
+assistant_knowledge
+reporting
+ 
+# 8. Repo Structure Plan
+ 
+/seguin-morris-recruiting
+  /apps
+    /web
+      /src
+        /app
+          /login
+          /dashboard
+          /campaigns
+          /candidates
+          /schools
+          /events
+          /sources
+          /outreach
+          /assistant
+          /admin
+        /components
+          /layout
+          /ui
+          /campaigns
+          /candidates
+          /pipeline
+          /schools
+          /events
+          /outreach
+          /assistant
+          /admin
+        /lib
+          /api
+          /auth
+          /i18n
+          /branding
+        /styles
+        /types
+ 
+    /api
+      /app
+        /main.py
+        /core
+          /config.py
+          /security.py
+          /database.py
+          /logging.py
+        /api
+          /routes
+            /auth.py
+            /users.py
+            /roles.py
+            /campaigns.py
+            /candidates.py
+            /sources.py
+            /schools.py
+            /events.py
+            /agent_runs.py
+            /outreach.py
+            /reports.py
+            /assistant.py
+            /settings.py
+        /models
+        /schemas
+        /services
+        /agents
+        /integrations
+          /llm
+          /email
+          /scraping
+        /workers
+        /utils
+      /alembic
+      /tests
+ 
+    /worker
+      /app
+        /worker.py
+        /tasks
+ 
+  /packages
+    /shared-types
+    /shared-config
+    /ui-tokens
+ 
+  /infra
+    /railway
+    /docker
+    /db
+ 
+  /docs
+    /blueprint
+    /source-policy
+    /branding
+    /api
+    /codex-review
+ 
+  README.md
+ 
+# 9. API Route Plan
+ 
+| **Module** | **Routes** |
+| --- | --- |
+| Auth | POST /api/auth/login, POST /api/auth/logout, GET /api/auth/me |
+| Users and roles | GET/POST/PATCH /api/users, GET /api/roles |
+| Campaigns | GET/POST /api/campaigns, GET/PATCH /api/campaigns/{id}, POST /api/campaigns/{id}/run-agents |
+| Candidates | GET/POST /api/candidates, GET/PATCH/DELETE /api/candidates/{id}, POST /api/candidates/{id}/score, POST /api/candidates/{id}/send-outreach |
+| Schools | GET/POST /api/programs, GET/PATCH /api/programs/{id}, POST /api/programs/{id}/send-outreach |
+| Events | GET/POST /api/events, GET/PATCH /api/events/{id} |
+| Sources | GET/POST /api/sources, PATCH /api/sources/{id}, POST /api/sources/{id}/test |
+| Agent runs | GET /api/agent-runs, GET /api/agent-runs/{id} |
+| Reports | GET /api/reports/dashboard, GET /api/reports/campaign/{id}, GET /api/reports/sources, GET /api/reports/recruiters |
+| Assistant | GET /api/assistant/faq, POST /api/assistant/query, GET/POST /api/assistant/documents |
+| Settings | GET/PATCH /api/settings/branding, email, llm |
+ 
+# 10. Provider Abstractions
+ 
+## LLM provider interface
+ 
+LLMClient.generate(prompt, options)
+LLMClient.extract(text, schema, options)
+LLMClient.classify(text, labels, options)
+LLMClient.score(input, rubric, options)
+LLMClient.summarize(text, options)
+ 
+## Supported LLM providers
+ 
+OpenAI
+Anthropic
+Google Gemini
+Azure OpenAI
+LM Studio local
+Future provider
+ 
+## Email provider interface
+ 
+EmailClient.send_email()
+EmailClient.get_thread()
+EmailClient.list_replies()
+EmailClient.create_draft()
+EmailClient.sync_status()
+ 
+# 11. Bilingual and Source Policy Requirements
+ 
+All user-facing labels must use translation keys.
+ 
+Supported languages are fr and en.
+ 
+Default language should be French unless user preference says otherwise.
+ 
+Every source must include source_type, access_method, allowed_to_scrape, notes, and last_checked_at.
+ 
+Automated scraping must not run unless allowed_to_scrape = true.
+ 
+If a source is not approved for scraping, use manual import, browser capture, API integration, or recruiter-assisted workflow.
+ 
+i18n key examples:
+campaign.create
+candidate.fit_score
+outreach.send_email
+assistant.ask_question
+admin.llm_provider
+ 
+# 12. Assistant Mockup Requirements
+ 
+Build a text assistant page in v1.
+ 
+Use approved knowledge documents only.
+ 
+Show source or category of answer.
+ 
+Refuse unknown questions safely.
+ 
+Support French and English.
+ 
+Prepare architecture for v2 voice/web assistant and phone assistant.
+ 
+Example questions:
+What does Seguin Morris do?
+What kind of refrigeration jobs are available?
+Do you hire apprentices?
+What certifications are useful?
+How do I apply?
+Where are your offices?
+ 
+# 13. Branding Requirements
+ 
+The UI must show the Seguin Morris logo area.
+ 
+The visual tone should be professional, industrial, modern, and trustworthy.
+ 
+Use Seguin Morris brand assets once provided.
+ 
+Until exact assets are available, use temporary placeholders and clearly mark them as temporary.
+ 
+Include Designed by CTRL Solutions in a secondary professional position.
+ 
+Temporary color placeholders:
+primary_color: #1F2937
+secondary_color: #0F766E
+accent_color: #F97316
+ 
+# 14. Implementation Phases
+ 
+| **Phase** | **Deliverables** |
+| --- | --- |
+| Phase 1: Scaffold | Repo structure, FastAPI running, web app running, PostgreSQL, Alembic, health check, auth placeholder, README. |
+| Phase 2: Core data model | Models, migrations, seed roles, seed brand settings, sample campaign, CRUD for campaigns/candidates/sources. |
+| Phase 3: Agent framework | Agent orchestrator, AgentRun integration, mock agents first, async execution, visible run status. |
+| Phase 4: Candidate pipeline | Candidate list/detail, pipeline board, notes, qualifications, fit score display. |
+| Phase 5: LLM adapter | Provider interface, one working provider, mock fallback, admin provider setting. |
+| Phase 6: Outreach and email | Templates, draft generation, Gmail mock integration, send/log email, Microsoft 365-ready abstraction. |
+| Phase 7: Reports | Dashboard KPIs, campaign report, source report, recruiter activity report. |
+| Phase 8: Assistant mockup | Knowledge document management, assistant query page, safe response handling, bilingual responses. |
+ 
+# 15. Claude Code Handoff Prompt
+ 
+You are the lead full-stack engineer for an internal company tool called Seguin Morris Recruiting Intelligence Platform, designed by CTRL Solutions.
+ 
+Your job is to build the project cleanly, safely, and incrementally. Do not rush to code the full app at once. First inspect the local environment and existing project context. Then create or adapt the repo structure, schema, interfaces, and working scaffold. Codex will be used as a corrector/reviewer to validate architecture, security, schema, and implementation quality.
+ 
+Core requirements:
+- Internal tool for Seguin Morris.
+- Bilingual UI, French and English.
+- Multi-user accounts and role-based access.
+- Seguin Morris branding and logo area.
+- Designed by CTRL Solutions credit.
+- Railway deployment.
+- Python FastAPI backend.
+- PostgreSQL database.
+- Background worker system.
+- Gmail integration for mockup/testing.
+- Future Microsoft 365 integration.
+- Swappable LLM API provider.
+- Multi-agent architecture.
+- 12-month inactive lead retention.
+- AI assistant mockup in v1.
+- Voice/web assistant planned for v2.
+ 
+Hard rules:
+- Do not hardcode LLM provider logic into agents.
+- Do not hardcode Gmail into outreach business logic.
+- Do not build scraping without checking allowed_to_scrape.
+- Do not send outreach automatically without recruiter approval.
+- Do not store unnecessary sensitive data.
+- Do not treat AI score as a hiring decision.
+- Do not build voice assistant in v1 beyond mockup.
+- Do not skip audit logs for important actions.
+- Do not skip role-based access.
+- Do not use English-only UI strings.
+ 
+# 16. Local Implementation Context Addendum
+ 
+Claude Code and Codex live on the local development machine.
+ 
+They may inspect the existing project files, installed tools, local environment, skills, docs, package managers, and CLI utilities before deciding how to implement.
+ 
+They should look for possible extra tools, skills, local wrappers, and existing scripts before reinventing them.
+ 
+If the spec conflicts with the local project structure, Claude should stop, identify the conflict, and prefer the existing working structure when coherent.
+ 
+Codex should review any major structural conflict before a refactor.
+ 
+## Claude Code local inspection checklist
+ 
+1. Existing repo structure
+2. Existing package files
+3. Existing environment files or examples
+4. Available local tools and CLIs
+5. Existing skills, scripts, utilities, or templates
+6. Existing Docker/Railway configuration
+7. Existing database or migration setup
+8. Existing frontend/backend conventions
+9. Existing design assets, logos, or brand files
+10. Existing documentation that may override assumptions in this brief
+ 
+## Local-first rule
+ 
+If the handoff spec conflicts with files already present locally:
+1. Stop and identify the conflict.
+2. Prefer the existing working project structure when coherent.
+3. Propose the smallest safe adjustment.
+4. Avoid rewriting or replacing working systems unless necessary.
+5. Ask Codex to review the conflict before major refactors.
+ 
+## Tool discovery instruction
+ 
+Search for useful local or installed tools, including:
+- project scripts
+- package manager commands
+- linting tools
+- testing tools
+- database tools
+- Railway config
+- Docker files
+- existing API clients
+- local agent frameworks
+- scraping utilities
+- browser automation tools
+- LLM provider wrappers
+- email provider utilities
+- code generation helpers
+ 
+# 17. Codex Corrector Prompts
+ 
+### Architecture review
+ 
+Review this implementation for architecture consistency with the Seguin Morris Recruiting Intelligence Platform spec. Check that the code respects the multi-agent structure, FastAPI backend, swappable LLM provider, swappable email provider, role-based access, and Railway deployment requirements. Do not rewrite everything. Identify concrete problems and propose minimal corrections.
+ 
+### Database review
+ 
+Review the database schema and migrations. Check relationships, indexes, naming consistency, auditability, retention support, and whether the schema can support candidates, campaigns, agent runs, sources, schools, events, outreach, assistant knowledge documents, and role-based access. Flag missing constraints or fields.
+ 
+### Security review
+ 
+Review this code for security risks. Focus on authentication, role-based access, API key handling, email token storage, source scraping safeguards, personal data minimization, audit logs, and retention handling. Provide specific fixes only.
+ 
+### Agent review
+ 
+Review the agent architecture. Confirm agents are modular, testable, and routed through an orchestrator. Confirm LLM calls go through the LLM adapter and that no provider is hardcoded. Confirm scraping respects allowed_to_scrape and source access_method.
+ 
+### Email review
+ 
+Review the email integration. Confirm Gmail is only the v1 mock/testing provider and that the business logic is abstracted enough to replace it with Microsoft 365 later. Confirm recruiter approval is required before sending.
+ 
+### UI review
+ 
+Review the UI structure. Confirm it supports bilingual labels, role-based navigation, Seguin Morris branding, CTRL Solutions credit, campaign dashboard, candidate pipeline, school/event modules, outreach composer, assistant mockup, and admin settings.
+ 
+### Local inspection review
+ 
+Review Claude Code’s local inspection summary. Confirm whether the existing project structure should be extended, replaced, or partially migrated. Check for missing tools, risky assumptions, dependency conflicts, and whether the implementation plan still respects the Seguin Morris Recruiting Intelligence Platform spec. Do not rewrite the plan unless needed. Give concrete corrections and a recommended next step.
+ 
+# 18. Pre-Code Gate and Next Steps
+ 
+Status before local inspection: READY FOR LOCAL INSPECTION AND IMPLEMENTATION PLANNING.
+ 
+Status after local inspection, if the structure is confirmed: READY FOR PHASE 1 IMPLEMENTATION.
+ 
+Do not blindly scaffold a new app if a usable local structure already exists.
+ 
+Choose whether to extend the existing structure, create a clean new structure, or migrate useful pieces into a new structure.
+ 
+## Pre-code gate checklist
+ 
+| **Item** | **Status** |
+| --- | --- |
+| Repo scaffold exists or local equivalent identified | To confirm locally |
+| FastAPI health check works or can be added | To confirm locally |
+| Web app loads or can be created | To confirm locally |
+| PostgreSQL connects | To confirm locally |
+| Alembic migrations work | To confirm locally |
+| Redis/worker plan documented | To confirm locally |
+| User roles seeded | To implement/confirm |
+| LLM adapter interface exists | To implement/confirm |
+| Email adapter interface exists | To implement/confirm |
+| Source policy model exists | To implement/confirm |
+| Branding placeholder exists | To implement/confirm |
+| Bilingual i18n structure exists | To implement/confirm |
+ 
+# 19. Source Appendix
+ 
+| **Source** | **Reference** |
+| --- | --- |
+| Seguin Morris Divisions | https://seguinmorris.com/divisions/ |
+| Seguin Morris Contact | https://seguinmorris.com/contact-us/ |
+| Uploaded PDF | Seguin Morris Refrigeration Specialist (1).pdf, 18 pages, provided in this conversation. |
+ 
+## Notes on compliance and scraping
+ 
+The app may be fully automatic only for sources that are approved and technically/legal-policy safe.
+ 
+Every source requires an explicit allowed_to_scrape flag and an access_method.
+ 
+When scraping is not allowed, the app should support API import, manual import, or recruiter-assisted browser capture.
+ 
+Candidate scoring is advisory and must remain explainable.
+ 
+Seguin Morris Recruiting Intelligence Platform | Designed by CTRL Solutions

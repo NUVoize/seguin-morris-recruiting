@@ -1,0 +1,35 @@
+{
+  "brand": {
+    "company": "Seguin Morris",
+    "tagline": "Recruiting Intelligence Platform",
+    "designed_by": "Designed by CTRL Solutions"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "campaigns": "Campaigns",
+    "candidates": "Candidates",
+    "schools": "Schools & programs",
+    "events": "Events",
+    "sources": "Sources",
+    "outreach": "Outreach",
+    "assistant": "Assistant",
+    "admin": "Admin"
+  },
+  "home": {
+    "title": "Recruiting Intelligence Platform",
+    "subtitle": "Find, qualify, and contact the best refrigeration technicians and HVAC-R specialists in Quebec.",
+    "phase": "Phase 1 — Scaffold in progress",
+    "language_toggle": "Switch language"
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Error",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "sign_in": "Sign in",
+    "sign_out": "Sign out"
+  }
+}

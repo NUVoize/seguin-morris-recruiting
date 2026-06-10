@@ -1,0 +1,35 @@
+{
+  "brand": {
+    "company": "Seguin Morris",
+    "tagline": "Plateforme de recrutement intelligent",
+    "designed_by": "Conçu par CTRL Solutions"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "campaigns": "Campagnes",
+    "candidates": "Candidats",
+    "schools": "Écoles et programmes",
+    "events": "Événements",
+    "sources": "Sources",
+    "outreach": "Communications",
+    "assistant": "Assistant",
+    "admin": "Administration"
+  },
+  "home": {
+    "title": "Plateforme de recrutement intelligent",
+    "subtitle": "Trouver, qualifier et contacter les meilleurs frigoristes et techniciens CVAC-R au Québec.",
+    "phase": "Phase 1 — Échafaudage en cours",
+    "language_toggle": "Changer la langue"
+  },
+  "common": {
+    "loading": "Chargement…",
+    "error": "Erreur",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "search": "Rechercher",
+    "sign_in": "Se connecter",
+    "sign_out": "Se déconnecter"
+  }
+}
