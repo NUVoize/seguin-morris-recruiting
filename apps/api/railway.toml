@@ -1,7 +1,6 @@
 # Railway service config for the FastAPI backend.
 # - Build: Dockerfile at apps/api/Dockerfile
 # - Pre-deploy: run any pending Alembic migrations (separate container, fails fast)
-# - Start: launch uvicorn on $PORT
 # - Health: liveness check at /api/health
 
 [build]
@@ -9,7 +8,6 @@ builder = "DOCKERFILE"
 
 [deploy]
 preDeployCommand = "alembic upgrade head"
-startCommand = "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
 healthcheckPath = "/api/health"
 healthcheckTimeout = 60
 restartPolicyType = "ON_FAILURE"
