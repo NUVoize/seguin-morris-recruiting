@@ -8,21 +8,25 @@ without breaking imports.
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
+import bcrypt
 from jose import jwt
-from passlib.context import CryptContext
 
 from app.core.config import settings
 
-# Password hashing context. Real user records arrive in Phase 2.
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# bcrypt directly — passlib is unmaintained and incompatible with bcrypt >= 4.1.
+# bcrypt's hard input limit is 72 bytes; we truncate identically on hash and
+# verify (standard practice, matches what passlib silently did).
 
 
 def hash_password(plain: str) -> str:
-    return pwd_context.hash(plain)
+    return bcrypt.hashpw(plain.encode("utf-8")[:72], bcrypt.gensalt()).decode("ascii")
 
 
 def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain, hashed)
+    try:
+        return bcrypt.checkpw(plain.encode("utf-8")[:72], hashed.encode("ascii"))
+    except ValueError:
+        return False
 
 
 def create_access_token(subject: str, extra_claims: dict[str, Any] | None = None) -> str:

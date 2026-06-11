@@ -1,4 +1,4 @@
-[project]
+﻿[project]
 name = "seguin-morris-api"
 version = "0.1.0"
 description = "Seguin Morris Recruiting Intelligence Platform — FastAPI backend"
@@ -17,7 +17,7 @@ dependencies = [
     "alembic>=1.14.0",
     "psycopg[binary]>=3.2.3",
     "python-jose[cryptography]>=3.3.0",
-    "passlib[bcrypt]>=1.7.4",
+    "bcrypt>=4.1",
     "python-multipart>=0.0.17",
     "celery[redis]>=5.4.0",
     "redis>=5.2.0",
