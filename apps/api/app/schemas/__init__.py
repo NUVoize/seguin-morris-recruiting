@@ -1,4 +1,4 @@
-"""Pydantic schemas — request/response shapes for the API.
+﻿"""Pydantic schemas — request/response shapes for the API.
 
 Three patterns per resource:
   - {Resource}Base       : shared fields, used for Create + Update
@@ -9,6 +9,7 @@ Three patterns per resource:
 
 from app.schemas.campaign import CampaignCreate, CampaignRead, CampaignUpdate
 from app.schemas.candidate import CandidateCreate, CandidateRead, CandidateUpdate
+from app.schemas.school import SchoolProgramRead
 from app.schemas.source import LeadSourceCreate, LeadSourceRead, LeadSourceUpdate
 
 __all__ = [
@@ -19,6 +20,7 @@ __all__ = [
     "CandidateRead",
     "CandidateUpdate",
     "LeadSourceCreate",
+    "SchoolProgramRead",
     "LeadSourceRead",
     "LeadSourceUpdate",
 ]

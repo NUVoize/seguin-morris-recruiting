@@ -153,3 +153,25 @@ export interface TriggerAgentRunResponse {
   agents: string[];
   message: string;
 }
+
+// ---------- Real-data track: school program directory ----------
+
+export type ProgramType = 'DEP' | 'DEC' | 'AEC';
+
+export interface SchoolProgram {
+  id: string;
+  institution_name: string;
+  program_name: string;
+  program_type: ProgramType;
+  city: string | null;
+  province: string | null;
+  country: string;
+  public_contact_name: string | null;
+  public_contact_email: string | null;
+  public_contact_phone: string | null;
+  cohort_start: string | null;
+  cohort_end: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+}

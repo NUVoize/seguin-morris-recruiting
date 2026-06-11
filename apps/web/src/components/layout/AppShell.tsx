@@ -17,7 +17,9 @@ export function AppShell({children}: {children: React.ReactNode}) {
 
   const links = [
     {href: '/run' as const, label: t('nav_agents')},
-    {href: '/candidates' as const, label: t('nav_pipeline')}
+    {href: '/candidates' as const, label: t('nav_pipeline')},
+    {href: '/schools' as const, label: t('nav_schools')},
+    {href: '/sources' as const, label: t('nav_sources')}
   ];
 
   return (

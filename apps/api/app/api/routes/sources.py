@@ -1,4 +1,9 @@
-"""LeadSource CRUD endpoints — gates allowed_to_scrape per spec hard rule."""
+"""LeadSource CRUD endpoints — gates allowed_to_scrape per spec hard rule.
+
+Changes to `allowed_to_scrape` are audit-logged (spec hard rule: never skip
+audit logs on important actions). Flipping that flag is the legal gate for
+all automated collection on a source.
+"""
 
 from __future__ import annotations
 
@@ -9,7 +14,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.models import LeadSource
+from app.models import AuditLog, LeadSource
 from app.models.enums import SourceType
 from app.schemas import LeadSourceCreate, LeadSourceRead, LeadSourceUpdate
 
@@ -68,6 +73,23 @@ def update_source(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Source not found")
 
     updates = _serialize_for_db(payload.model_dump(exclude_unset=True))
+
+    # Audit the scrape-policy gate before applying — hard rule #6.
+    if "allowed_to_scrape" in updates and updates["allowed_to_scrape"] != source.allowed_to_scrape:
+        db.add(
+            AuditLog(
+                user_id=None,  # auth placeholder in v1; real user once login ships
+                action="source.scrape_policy_changed",
+                entity_type="lead_source",
+                entity_id=source.id,
+                audit_metadata={
+                    "source_name": source.name,
+                    "from": source.allowed_to_scrape,
+                    "to": updates["allowed_to_scrape"],
+                },
+            )
+        )
+
     for field, value in updates.items():
         setattr(source, field, value)
 

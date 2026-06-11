@@ -7,6 +7,8 @@
   "shell": {
     "nav_agents": "Salle des opérations",
     "nav_pipeline": "Pipeline",
+    "nav_schools": "Écoles",
+    "nav_sources": "Sources",
     "designed_by": "Conçu par CTRL Solutions"
   },
   "nav": {
@@ -128,7 +130,8 @@
       "candidates_enriched": "enrichis",
       "qualifications_added": "certifications",
       "scored": "scorés",
-      "strong_matches": "profils forts"
+      "strong_matches": "profils forts",
+      "programs_in_window": "en fenêtre"
     },
     "status": {
       "pending": "En attente",
@@ -159,6 +162,60 @@
       "title": "Le pipeline a rencontré une erreur",
       "agent_failed": "Un agent a échoué. Voir les détails dans le journal.",
       "poll_failed": "Connexion perdue avec l'API. Vérifiez que le service est en ligne."
+    }
+  },
+  "schools": {
+    "title": "Écoles et programmes",
+    "subtitle": "L'annuaire réel des bassins de recrutement québécois — centres DEP, cégeps DEC 221.C0 et AEC, avec contacts publics et fenêtres de prospection calculées sur les vraies cohortes.",
+    "in_window_count": "{count, plural, =0 {Aucun programme en fenêtre active} =1 {1 programme en fenêtre active} other {# programmes en fenêtre active}}",
+    "groups": {
+      "DEP": {
+        "title": "DEP Réfrigération 5386",
+        "description": "Le bassin principal — apprentis, finissants et jeunes diplômés directement exploitables. Fenêtre idéale : 90 à 180 jours avant la fin de cohorte, réactivation à 30 jours."
+      },
+      "DEC": {
+        "title": "DEC 221.C0 — Mécanique du bâtiment",
+        "description": "Bassin complémentaire — mise en service, contrôle, estimation, maintenance, chargé de projet junior."
+      },
+      "AEC": {
+        "title": "AEC ciblées",
+        "description": "Requalification et perfectionnement — techniciens déjà en emploi."
+      }
+    },
+    "window": {
+      "reactivation": "Réactivation — diplomation dans {days} j",
+      "ideal": "Fenêtre idéale — fin dans {days} j",
+      "watch": "Veille — fin dans {days} j",
+      "unknown": "Calendrier à confirmer",
+      "past": "Cohorte terminée il y a {days} j"
+    },
+    "footnote": "Données issues de la recherche de recrutement (mai 2026). Vérifier les dates de cohorte auprès des centres avant toute campagne."
+  },
+  "sources": {
+    "title": "Annuaire des sources",
+    "subtitle": "Chaque canal de sourcing avec sa politique d'accès. Le commutateur est la barrière légale : aucune collecte automatisée ne s'exécute sans autorisation explicite.",
+    "allowed_count": "{allowed} / {total} autorisées au scraping",
+    "policy_note": "Règle stricte : activer le scraping d'une source est une décision humaine, prise après vérification de ses conditions d'utilisation. Indeed et LinkedIn l'interdisent — utiliser l'import manuel ou la capture assistée. Chaque changement est consigné au journal d'audit.",
+    "enable_confirm": "Autoriser la collecte automatisée sur « {name} » ?\n\nConfirmez que les conditions d'utilisation de cette source ont été vérifiées et permettent la collecte automatisée. Ce changement sera consigné au journal d'audit.",
+    "scrape_on": "Scraping autorisé",
+    "scrape_off": "Scraping interdit",
+    "audit_note": "Tous les changements de politique sont consignés au journal d'audit.",
+    "types": {
+      "government": "Gouvernement",
+      "job_board": "Job board",
+      "social": "Social",
+      "association": "Association",
+      "school": "École",
+      "event": "Événement",
+      "company_site": "Site corporatif",
+      "manual": "Manuel"
+    },
+    "access": {
+      "api": "API",
+      "public_page": "Page publique",
+      "browser_automation": "Automatisation navigateur",
+      "manual_import": "Import manuel",
+      "browser_capture": "Capture assistée"
     }
   }
 }

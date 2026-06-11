@@ -9,7 +9,7 @@ outreach, reports, assistant, settings).
 
 from fastapi import APIRouter
 
-from app.api.routes import agent_runs, auth, campaigns, candidates, health, sources
+from app.api.routes import agent_runs, auth, campaigns, candidates, health, schools, sources
 
 api_router = APIRouter()
 
@@ -26,3 +26,6 @@ api_router.include_router(sources.router)
 
 # Phase 3 - agent orchestration
 api_router.include_router(agent_runs.router)
+
+# Real-data track - school program directory (read-only, seeded)
+api_router.include_router(schools.router)

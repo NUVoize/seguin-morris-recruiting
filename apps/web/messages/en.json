@@ -7,6 +7,8 @@
   "shell": {
     "nav_agents": "Operations room",
     "nav_pipeline": "Pipeline",
+    "nav_schools": "Schools",
+    "nav_sources": "Sources",
     "designed_by": "Designed by CTRL Solutions"
   },
   "nav": {
@@ -128,7 +130,8 @@
       "candidates_enriched": "enriched",
       "qualifications_added": "certifications",
       "scored": "scored",
-      "strong_matches": "strong matches"
+      "strong_matches": "strong matches",
+      "programs_in_window": "in window"
     },
     "status": {
       "pending": "Pending",
@@ -159,6 +162,60 @@
       "title": "The pipeline hit an error",
       "agent_failed": "An agent failed. Check the log for details.",
       "poll_failed": "Lost connection to the API. Check that the service is online."
+    }
+  },
+  "schools": {
+    "title": "Schools & programs",
+    "subtitle": "The real directory of Quebec recruiting pools — DEP centers, DEC 221.C0 cegeps and AECs, with public contacts and prospecting windows computed from actual cohort dates.",
+    "in_window_count": "{count, plural, =0 {No programs in active window} =1 {1 program in active window} other {# programs in active window}}",
+    "groups": {
+      "DEP": {
+        "title": "DEP Refrigeration 5386",
+        "description": "The primary pool — apprentices, graduating students, and recent graduates ready to deploy. Ideal window: 90 to 180 days before cohort end, reactivation at 30 days."
+      },
+      "DEC": {
+        "title": "DEC 221.C0 — Building Mechanics",
+        "description": "Complementary pool — commissioning, controls, estimating, maintenance, junior project management."
+      },
+      "AEC": {
+        "title": "Targeted AECs",
+        "description": "Requalification and upskilling — technicians already in the workforce."
+      }
+    },
+    "window": {
+      "reactivation": "Reactivation — graduating in {days}d",
+      "ideal": "Ideal window — ends in {days}d",
+      "watch": "Watch — ends in {days}d",
+      "unknown": "Calendar to confirm",
+      "past": "Cohort ended {days}d ago"
+    },
+    "footnote": "Data from the recruiting research (May 2026). Verify cohort dates with each center before launching a campaign."
+  },
+  "sources": {
+    "title": "Source directory",
+    "subtitle": "Every sourcing channel with its access policy. The switch is the legal gate: no automated collection runs without explicit authorization.",
+    "allowed_count": "{allowed} / {total} cleared for scraping",
+    "policy_note": "Strict rule: enabling scraping on a source is a human decision, made after reviewing its terms of service. Indeed and LinkedIn prohibit it — use manual import or assisted capture. Every change is written to the audit log.",
+    "enable_confirm": "Allow automated collection on \"{name}\"?\n\nConfirm that this source's terms of service have been reviewed and permit automated collection. This change will be written to the audit log.",
+    "scrape_on": "Scraping allowed",
+    "scrape_off": "Scraping off",
+    "audit_note": "All policy changes are written to the audit log.",
+    "types": {
+      "government": "Government",
+      "job_board": "Job board",
+      "social": "Social",
+      "association": "Association",
+      "school": "School",
+      "event": "Event",
+      "company_site": "Company site",
+      "manual": "Manual"
+    },
+    "access": {
+      "api": "API",
+      "public_page": "Public page",
+      "browser_automation": "Browser automation",
+      "manual_import": "Manual import",
+      "browser_capture": "Assisted capture"
     }
   }
 }
