@@ -1,14 +1,15 @@
 # Railway service config for the FastAPI backend.
-# - Build: install in editable mode via pip
-# - Start: run any pending Alembic migrations, then launch uvicorn on $PORT
+# - Build: Dockerfile at apps/api/Dockerfile
+# - Pre-deploy: run any pending Alembic migrations (separate container, fails fast)
+# - Start: launch uvicorn on $PORT
 # - Health: liveness check at /api/health
 
 [build]
-builder = "nixpacks"
-buildCommand = "pip install -e ."
+builder = "DOCKERFILE"
 
 [deploy]
-startCommand = "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+preDeployCommand = "alembic upgrade head"
+startCommand = "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
 healthcheckPath = "/api/health"
 healthcheckTimeout = 60
 restartPolicyType = "ON_FAILURE"
