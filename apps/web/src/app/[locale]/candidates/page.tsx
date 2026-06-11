@@ -26,12 +26,14 @@ export default async function CandidatesPage({params}: Props) {
   if (fetchError) {
     return (
       <main className="flex flex-1 items-center justify-center p-6">
-        <div className="max-w-md rounded-lg border border-red-200 bg-red-50 p-6 text-center">
-          <h2 className="text-lg font-semibold text-red-900">Backend unreachable</h2>
-          <p className="mt-2 text-sm text-red-800">{fetchError}</p>
-          <p className="mt-3 text-xs text-red-700">
+        <div className="max-w-md rounded-xl border border-danger/30 bg-danger-soft p-6 text-center">
+          <h2 className="font-display text-lg font-bold uppercase tracking-wide text-danger">
+            Backend unreachable
+          </h2>
+          <p className="mt-2 text-sm text-steel-700">{fetchError}</p>
+          <p className="mt-3 text-xs text-steel-500">
             Start the API with{' '}
-            <code className="rounded bg-white px-1 py-0.5">uvicorn app.main:app --reload --port 8000</code>{' '}
+            <code className="rounded bg-white px-1 py-0.5 font-mono">uvicorn app.main:app --reload --port 8000</code>{' '}
             and refresh.
           </p>
         </div>

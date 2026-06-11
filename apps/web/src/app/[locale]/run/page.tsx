@@ -9,7 +9,7 @@ export default async function RunPage({
   const {locale} = await params;
   setRequestLocale(locale);
   return (
-    <main className="min-h-[calc(100vh-4rem)] bg-neutral-50">
+    <main className="flex flex-1 flex-col">
       <AgentTheater />
     </main>
   );

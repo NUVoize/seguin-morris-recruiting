@@ -144,19 +144,21 @@ export function KanbanBoard({initialCandidates}: KanbanBoardProps) {
   }, [errorMessage]);
 
   return (
-    <div className="flex h-[calc(100vh-7rem)] flex-col">
-      <header className="flex flex-wrap items-baseline justify-between gap-2 px-6 pb-4 pt-2">
+    <div className="flex h-[calc(100vh-8.5rem)] flex-col">
+      <header className="flex flex-wrap items-end justify-between gap-2 px-4 pb-4 pt-6 sm:px-6">
         <div>
-          <h1 className="text-2xl font-semibold text-neutral-900">{tPipeline('title')}</h1>
-          <p className="mt-1 text-sm text-neutral-600">{tPipeline('subtitle')}</p>
+          <h1 className="font-display text-3xl font-bold uppercase tracking-tight text-steel-900">
+            {tPipeline('title')}
+          </h1>
+          <p className="mt-1 text-sm text-steel-500">{tPipeline('subtitle')}</p>
         </div>
-        <p className="text-sm text-neutral-500">
+        <p className="font-mono text-sm tabular-nums text-steel-400">
           {tPipeline('total_candidates', {count: items.length})}
         </p>
       </header>
 
       {errorMessage && (
-        <div className="mx-6 mb-2 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-900">
+        <div className="mx-4 mb-2 rounded-md border border-danger/30 bg-danger-soft px-3 py-2 text-sm text-danger sm:mx-6">
           {tCommon('error')}: {errorMessage}
         </div>
       )}
@@ -167,7 +169,7 @@ export function KanbanBoard({initialCandidates}: KanbanBoardProps) {
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex flex-1 gap-3 overflow-x-auto px-6 pb-6">
+        <div className="flex flex-1 gap-3 overflow-x-auto px-4 pb-6 sm:px-6">
           {PIPELINE_STAGES.map((stage) => (
             <KanbanColumn
               key={stage}
@@ -180,7 +182,7 @@ export function KanbanBoard({initialCandidates}: KanbanBoardProps) {
 
         <DragOverlay dropAnimation={null}>
           {draggingCandidate ? (
-            <div className="w-[240px] rotate-2">
+            <div className="w-[248px] rotate-2 drop-shadow-xl">
               <CandidateCard candidate={draggingCandidate} onClick={() => {}} />
             </div>
           ) : null}

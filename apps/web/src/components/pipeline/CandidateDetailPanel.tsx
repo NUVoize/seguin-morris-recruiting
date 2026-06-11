@@ -1,8 +1,12 @@
 'use client';
 
-import {useTranslations} from 'next-intl';
+import {useLocale, useTranslations} from 'next-intl';
 
 import {PIPELINE_STAGES, type Candidate, type PipelineStage} from '@/lib/api/types';
+import {IconClock, IconLink, IconMail, IconPhone, IconPin, IconX} from '@/components/icons';
+
+import {ScoreRing} from './ScoreRing';
+import {candidateSource} from './candidateMeta';
 
 interface CandidateDetailPanelProps {
   candidate: Candidate;
@@ -12,8 +16,8 @@ interface CandidateDetailPanelProps {
 }
 
 /**
- * Slide-out detail panel — opens when a card is clicked.
- * Plain fixed-position div + backdrop. No portal needed at this scale.
+ * Slide-out candidate sheet. Navy identity band, fit score ring with the
+ * advisory note (hard rule), stage control, contact rows, metadata.
  */
 export function CandidateDetailPanel({
   candidate,
@@ -24,6 +28,9 @@ export function CandidateDetailPanel({
   const tDetail = useTranslations('pipeline.detail');
   const tStages = useTranslations('pipeline.stages');
   const tCommon = useTranslations('common');
+  const locale = useLocale();
+
+  const source = candidateSource(candidate);
 
   const handleDelete = () => {
     if (window.confirm(tDetail('delete_confirm'))) {
@@ -36,7 +43,7 @@ export function CandidateDetailPanel({
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className="fixed inset-0 z-40 bg-neutral-900/30 backdrop-blur-sm"
+        className="fixed inset-0 z-40 bg-navy-950/40 backdrop-blur-[2px]"
         aria-hidden
       />
 
@@ -44,67 +51,85 @@ export function CandidateDetailPanel({
       <aside
         role="dialog"
         aria-labelledby="candidate-detail-title"
-        className="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col overflow-y-auto border-l border-neutral-200 bg-white shadow-xl"
+        className="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col overflow-y-auto bg-white shadow-2xl"
       >
-        <header className="flex items-start justify-between gap-4 border-b border-neutral-200 px-6 py-5">
-          <div className="min-w-0 flex-1">
-            <p className="text-xs uppercase tracking-widest text-neutral-500">
+        {/* Identity band */}
+        <header className="bg-navy-950 px-6 pb-5 pt-5 text-white">
+          <div className="flex items-start justify-between gap-3">
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-steel-400">
               {tDetail('title')}
             </p>
-            <h2 id="candidate-detail-title" className="mt-1 truncate text-xl font-semibold">
-              {candidate.full_name || tDetail('title')}
-            </h2>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="shrink-0 rounded-md p-1.5 text-neutral-500 hover:bg-neutral-100"
-            aria-label={tCommon('close')}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="h-5 w-5"
+            <button
+              type="button"
+              onClick={onClose}
+              className="shrink-0 rounded-md p-1.5 text-steel-400 transition hover:bg-white/10 hover:text-white"
+              aria-label={tCommon('close')}
             >
-              <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
-            </svg>
-          </button>
+              <IconX size={16} />
+            </button>
+          </div>
+          <h2
+            id="candidate-detail-title"
+            className="mt-2 truncate font-display text-3xl font-bold uppercase tracking-tight"
+          >
+            {candidate.full_name || tDetail('title')}
+          </h2>
+          <div className="mt-1.5 flex flex-wrap items-center gap-2 text-sm text-steel-300">
+            {candidate.current_title && <span>{candidate.current_title}</span>}
+            {candidate.region && (
+              <span className="inline-flex items-center gap-1">
+                <IconPin size={12} />
+                {candidate.region}
+              </span>
+            )}
+            {source && (
+              <span className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wide text-ember-400">
+                {source.label}
+              </span>
+            )}
+          </div>
         </header>
 
-        <div className="space-y-5 px-6 py-5">
+        <div className="space-y-6 px-6 py-6">
           {/* Fit score */}
-          <div>
-            <p className="text-xs font-medium uppercase tracking-wider text-neutral-500">
-              {tDetail('fit_score')}
-            </p>
-            <p className="mt-1 text-2xl font-semibold text-neutral-900">
-              {candidate.fit_score ?? '—'}
-              {candidate.fit_label && (
-                <span className="ml-2 text-sm font-normal text-neutral-500">
-                  · {candidate.fit_label}
+          <section>
+            <SectionLabel>{tDetail('fit_score')}</SectionLabel>
+            <div className="mt-2.5 flex items-start gap-4">
+              {candidate.fit_score != null ? (
+                <ScoreRing score={candidate.fit_score} size={64} stroke={5} />
+              ) : (
+                <span className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-dashed border-steel-200 font-mono text-xs text-steel-300">
+                  {'\u2014'}
                 </span>
               )}
+              <div className="min-w-0 flex-1 pt-1">
+                {candidate.fit_label && (
+                  <p className="font-display text-lg font-semibold uppercase tracking-wide text-steel-800">
+                    {candidate.fit_label}
+                  </p>
+                )}
+                {candidate.fit_summary && (
+                  <p className="mt-1 text-sm leading-relaxed text-steel-600">
+                    {candidate.fit_summary}
+                  </p>
+                )}
+              </div>
+            </div>
+            <p className="mt-3 rounded-md border-l-2 border-ember bg-steel-50 px-3 py-2 text-xs leading-relaxed text-steel-600">
+              {tDetail('vetting_reminder')}
             </p>
-            {candidate.fit_summary && (
-              <p className="mt-1 text-sm text-neutral-700">{candidate.fit_summary}</p>
-            )}
-            <p className="mt-2 text-xs italic text-neutral-500">{tDetail('vetting_reminder')}</p>
-          </div>
+          </section>
 
-          {/* Stage selector */}
-          <div>
-            <label
-              htmlFor="pipeline-stage"
-              className="block text-xs font-medium uppercase tracking-wider text-neutral-500"
-            >
-              {tDetail('pipeline_status')}
+          {/* Stage */}
+          <section>
+            <label htmlFor="pipeline-stage">
+              <SectionLabel>{tDetail('pipeline_status')}</SectionLabel>
             </label>
             <select
               id="pipeline-stage"
               value={candidate.pipeline_status}
               onChange={(e) => onChangeStage(e.target.value as PipelineStage)}
-              className="mt-1 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:border-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+              className="mt-2 w-full rounded-lg border border-steel-200 bg-white px-3 py-2.5 text-sm font-medium text-steel-800 transition focus:border-navy focus:outline-none focus:ring-1 focus:ring-navy"
             >
               {PIPELINE_STAGES.map((stage) => (
                 <option key={stage} value={stage}>
@@ -112,42 +137,59 @@ export function CandidateDetailPanel({
                 </option>
               ))}
             </select>
-          </div>
+          </section>
 
-          {/* Field grid */}
-          <dl className="grid grid-cols-1 gap-4 text-sm">
-            <Field label={tDetail('region')} value={candidate.region} />
-            <Field label={tDetail('title_label')} value={candidate.current_title} />
-            <Field label={tDetail('email')} value={candidate.contact_email} />
-            <Field label={tDetail('phone')} value={candidate.contact_phone} />
-            <Field
-              label={tDetail('profile_url')}
-              value={candidate.profile_url}
-              renderValue={(v) => (
-                <a
-                  href={v}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="break-all text-blue-600 underline-offset-2 hover:underline"
-                >
-                  {v}
-                </a>
-              )}
-            />
-            <Field label={tDetail('candidate_type')} value={candidate.candidate_type} />
-            <Field label={tDetail('consent_status')} value={candidate.consent_status} />
-            <Field
-              label={tDetail('created_at')}
-              value={new Date(candidate.created_at).toLocaleString()}
-            />
-          </dl>
+          {/* Contact */}
+          <section>
+            <SectionLabel>{tDetail('contact_section')}</SectionLabel>
+            <div className="mt-2 divide-y divide-steel-50 rounded-lg border border-steel-100">
+              <ContactRow
+                icon={<IconMail size={14} />}
+                value={candidate.contact_email}
+                href={candidate.contact_email ? `mailto:${candidate.contact_email}` : undefined}
+              />
+              <ContactRow
+                icon={<IconPhone size={14} />}
+                value={candidate.contact_phone}
+                href={candidate.contact_phone ? `tel:${candidate.contact_phone}` : undefined}
+              />
+              <ContactRow
+                icon={<IconLink size={14} />}
+                value={candidate.profile_url}
+                href={candidate.profile_url ?? undefined}
+                external
+              />
+            </div>
+          </section>
+
+          {/* Metadata */}
+          <section>
+            <SectionLabel>{tDetail('meta_section')}</SectionLabel>
+            <dl className="mt-2 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+              <Meta label={tDetail('candidate_type')} value={candidate.candidate_type} />
+              <Meta label={tDetail('consent_status')} value={candidate.consent_status} />
+              <Meta
+                label={tDetail('created_at')}
+                value={new Date(candidate.created_at).toLocaleDateString(locale)}
+              />
+              <Meta
+                label={tDetail('last_seen_at')}
+                value={
+                  candidate.last_seen_at
+                    ? new Date(candidate.last_seen_at).toLocaleDateString(locale)
+                    : null
+                }
+                icon={<IconClock size={11} />}
+              />
+            </dl>
+          </section>
         </div>
 
-        <footer className="mt-auto border-t border-neutral-200 px-6 py-4">
+        <footer className="mt-auto border-t border-steel-100 px-6 py-4">
           <button
             type="button"
             onClick={handleDelete}
-            className="text-sm font-medium text-red-700 hover:text-red-900"
+            className="text-sm font-medium text-danger transition hover:text-danger/80"
           >
             {tDetail('delete_candidate')}
           </button>
@@ -157,20 +199,68 @@ export function CandidateDetailPanel({
   );
 }
 
-function Field({
+function SectionLabel({children}: {children: React.ReactNode}) {
+  return (
+    <span className="font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-steel-400">
+      {children}
+    </span>
+  );
+}
+
+function ContactRow({
+  icon,
+  value,
+  href,
+  external
+}: {
+  icon: React.ReactNode;
+  value: string | null | undefined;
+  href?: string;
+  external?: boolean;
+}) {
+  const inner = (
+    <span className="flex min-w-0 items-center gap-2.5 px-3 py-2.5">
+      <span className="shrink-0 text-steel-400">{icon}</span>
+      {value ? (
+        <span className="truncate text-sm text-steel-800">{value}</span>
+      ) : (
+        <span className="text-sm text-steel-300">{'\u2014'}</span>
+      )}
+    </span>
+  );
+
+  if (value && href) {
+    return (
+      <a
+        href={href}
+        target={external ? '_blank' : undefined}
+        rel={external ? 'noopener noreferrer' : undefined}
+        className="block transition hover:bg-steel-50"
+      >
+        {inner}
+      </a>
+    );
+  }
+  return <div>{inner}</div>;
+}
+
+function Meta({
   label,
   value,
-  renderValue
+  icon
 }: {
   label: string;
   value: string | null | undefined;
-  renderValue?: (v: string) => React.ReactNode;
+  icon?: React.ReactNode;
 }) {
   return (
     <div>
-      <dt className="text-xs font-medium uppercase tracking-wider text-neutral-500">{label}</dt>
-      <dd className="mt-0.5 text-sm text-neutral-900">
-        {value ? (renderValue ? renderValue(value) : value) : <span className="text-neutral-400">—</span>}
+      <dt className="font-mono text-[10px] font-medium uppercase tracking-wider text-steel-400">
+        {label}
+      </dt>
+      <dd className="mt-0.5 flex items-center gap-1 text-sm text-steel-800">
+        {icon && <span className="text-steel-400">{icon}</span>}
+        {value ?? <span className="text-steel-300">{'\u2014'}</span>}
       </dd>
     </div>
   );

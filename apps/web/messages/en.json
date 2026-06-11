@@ -4,6 +4,11 @@
     "tagline": "Recruiting Intelligence Platform",
     "designed_by": "Designed by CTRL Solutions"
   },
+  "shell": {
+    "nav_agents": "Operations room",
+    "nav_pipeline": "Pipeline",
+    "designed_by": "Designed by CTRL Solutions"
+  },
   "nav": {
     "dashboard": "Dashboard",
     "campaigns": "Campaigns",
@@ -16,12 +21,29 @@
     "admin": "Admin"
   },
   "home": {
+    "eyebrow": "HVAC-R Recruiting — Quebec",
+    "hero_line1": "Five agents.",
+    "hero_line2": "One full pipeline.",
     "title": "Recruiting Intelligence Platform",
-    "subtitle": "Find, qualify, and contact the best refrigeration technicians and HVAC-R specialists in Quebec.",
-    "phase": "Phase 1 — Scaffold in progress",
+    "subtitle": "Find, qualify, and contact the best refrigeration technicians and HVAC-R specialists in Quebec — from job boards to DEP training centers, all the way to fit ranking.",
     "language_toggle": "Switch language",
-    "open_pipeline": "Open the candidate pipeline",
-    "launch_agents": "Launch the talent hunt"
+    "open_pipeline": "View the pipeline",
+    "launch_agents": "Launch the hunt",
+    "features": {
+      "sources": {
+        "title": "Sources under control",
+        "body": "Jobillico, Indeed, Jobboom, LinkedIn and the 7 DEP Refrigeration centers — every source is governed by an explicit policy before any automated collection."
+      },
+      "vetting": {
+        "title": "Quebec compliance",
+        "body": "DEP, CCQ apprentice/journeyman, ASP 30h, SF-1, SF-2, halocarbons, driver's license — qualification signals are detected and flagged for the recruiter."
+      },
+      "scoring": {
+        "title": "Advisory scoring",
+        "body": "Every candidate is ranked on a weighted, explainable rubric. The AI recommends, the recruiter decides — always."
+      }
+    },
+    "advisory_note": "The fit score is advisory. The recruiter verifies certifications before any hiring decision."
   },
   "common": {
     "loading": "Loading…",
@@ -57,39 +79,57 @@
     "card": {
       "no_name": "Unnamed",
       "no_region": "Unknown region",
-      "no_title": "Unknown title"
+      "no_title": "Unknown title",
+      "days_suffix": "d"
     },
     "detail": {
       "title": "Candidate details",
       "fit_score": "Fit score",
       "fit_score_not_scored": "Not scored",
+      "contact_section": "Contact",
+      "meta_section": "Metadata",
       "region": "Region",
       "title_label": "Current title",
       "email": "Email",
       "phone": "Phone",
       "profile_url": "Profile URL",
       "candidate_type": "Candidate type",
-      "consent_status": "Consent status",
+      "consent_status": "Consent",
       "pipeline_status": "Pipeline stage",
       "change_stage": "Change stage",
       "created_at": "Created",
-      "last_seen_at": "Last seen",
+      "last_seen_at": "Last activity",
       "delete_candidate": "Delete candidate",
       "delete_confirm": "Are you sure you want to delete this candidate?",
       "vetting_reminder": "Note: the fit score is advisory. The recruiter verifies certifications before any hiring decision."
     }
   },
   "run": {
-    "eyebrow": "Agent pipeline",
+    "eyebrow": "Operations room",
     "title": "Launch a talent hunt",
     "subtitle": "Five specialized agents scan job boards, contact CFP DEP centers, dedupe, validate certifications, and rank candidates. Result: a pipeline filled in under a minute.",
-    "launch_button": "Launch the talent hunt",
+    "launch_button": "Launch the hunt",
+    "console_title": "Agent console",
     "vetting_reminder": "The fit score is advisory. The recruiter verifies certifications before any hiring decision.",
     "header": {
-      "live": "Pipeline running",
-      "done": "Pipeline complete"
+      "live": "Operation in progress",
+      "done": "Operation complete"
     },
     "discovered_count": "{count, plural, =0 {No candidates discovered} =1 {1 candidate discovered} other {# candidates discovered}}",
+    "tally": {
+      "discovered": "Candidates discovered",
+      "scored": "Candidates scored",
+      "strong": "Strong matches"
+    },
+    "counts": {
+      "candidates_created": "leads",
+      "sources_visited": "sources",
+      "schools_contacted": "centers",
+      "candidates_enriched": "enriched",
+      "qualifications_added": "certifications",
+      "scored": "scored",
+      "strong_matches": "strong matches"
+    },
     "status": {
       "pending": "Pending",
       "running": "Running",
@@ -98,11 +138,11 @@
       "waiting": "Waiting to start…"
     },
     "agents": {
-      "employment_source": "Employment Source",
+      "employment_source": "Job Discovery",
       "school_pipeline": "School Pipeline",
-      "lead_enrichment": "Lead Enrichment",
-      "candidate_vetting": "Candidate Vetting",
-      "fit_ranking": "Fit Ranking",
+      "lead_enrichment": "Enrichment",
+      "candidate_vetting": "Vetting",
+      "fit_ranking": "Ranking",
       "event_discovery": "Event Discovery",
       "outreach": "Outreach",
       "email_sync": "Email Sync",
@@ -111,7 +151,7 @@
     },
     "cta": {
       "done_subtitle": "All agents finished. The discovered candidates are now in the pipeline.",
-      "view_pipeline": "View the pipeline →",
+      "view_pipeline": "View the pipeline",
       "run_again": "Run again",
       "retry": "Retry"
     },

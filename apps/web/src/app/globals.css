@@ -1,26 +1,147 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Seguin Morris — design tokens
+   Cold-trade industrial console. Two brand colors + cool steel
+   neutrals. Navy + ember are pulled from the wordmark.
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand */
+  --sm-navy-950: #0b1233;
+  --sm-navy-900: #131c4d;
+  --sm-navy-800: #1a2560;
+  --sm-navy: #1f2c72;          /* wordmark blue */
+  --sm-navy-600: #2e3f97;
+  --sm-navy-500: #3d52c4;
+  --sm-ember-600: #d9531a;
+  --sm-ember: #f26522;         /* wordmark orange */
+  --sm-ember-400: #f97f45;
+
+  /* Cool steel neutrals (blue-cast — the cold trade) */
+  --steel-0: #f6f8fc;
+  --steel-50: #eef1f8;
+  --steel-100: #e3e8f2;
+  --steel-200: #ccd4e4;
+  --steel-300: #aab5cc;
+  --steel-400: #8492ad;
+  --steel-500: #5f6d89;
+  --steel-600: #46526b;
+  --steel-700: #333d52;
+  --steel-800: #232b3d;
+  --steel-900: #161c2b;
+
+  /* Functional */
+  --ok: #19b27b;
+  --ok-soft: #e2f6ee;
+  --danger: #e5484d;
+  --danger-soft: #fdebec;
+  --warn: #d97a08;
+  --warn-soft: #fdf2e0;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Expose tokens to Tailwind utilities: bg-navy, text-ember, border-steel-200... */
+  --color-navy-950: var(--sm-navy-950);
+  --color-navy-900: var(--sm-navy-900);
+  --color-navy-800: var(--sm-navy-800);
+  --color-navy: var(--sm-navy);
+  --color-navy-600: var(--sm-navy-600);
+  --color-navy-500: var(--sm-navy-500);
+  --color-ember-600: var(--sm-ember-600);
+  --color-ember: var(--sm-ember);
+  --color-ember-400: var(--sm-ember-400);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-steel-0: var(--steel-0);
+  --color-steel-50: var(--steel-50);
+  --color-steel-100: var(--steel-100);
+  --color-steel-200: var(--steel-200);
+  --color-steel-300: var(--steel-300);
+  --color-steel-400: var(--steel-400);
+  --color-steel-500: var(--steel-500);
+  --color-steel-600: var(--steel-600);
+  --color-steel-700: var(--steel-700);
+  --color-steel-800: var(--steel-800);
+  --color-steel-900: var(--steel-900);
+
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+
+  --font-display: var(--font-barlow-condensed);
+  --font-sans: var(--font-barlow);
+  --font-mono: var(--font-plex-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--steel-0);
+  color: var(--steel-900);
+  font-family: var(--font-barlow), system-ui, sans-serif;
+}
+
+/* ---------- Motion ---------- */
+
+@keyframes sm-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes sm-flow {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: translateY(420%); opacity: 0; }
+}
+@keyframes sm-flow-x {
+  0%   { transform: translateX(0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateX(var(--sm-flow-distance, 560px)); opacity: 0; }
+}
+@keyframes sm-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+@keyframes sm-sweep {
+  from { background-position: -200% 0; }
+  to   { background-position: 200% 0; }
+}
+
+.sm-rise { animation: sm-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.sm-blink { animation: sm-blink 1.1s ease-in-out infinite; }
+
+/* The animated pulse traveling down the station rail */
+.sm-rail-pulse {
+  animation: sm-flow 1.6s linear infinite;
+}
+.sm-flow-dot {
+  animation: sm-flow-x 2.6s linear infinite;
+}
+/* Running shimmer on active station */
+.sm-sweep {
+  background-image: linear-gradient(
+    100deg,
+    transparent 30%,
+    rgba(242, 101, 34, 0.10) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: sm-sweep 2.2s linear infinite;
+}
+
+/* Console scrollbars (WebKit) — keep the telemetry feel */
+.sm-console::-webkit-scrollbar { width: 8px; }
+.sm-console::-webkit-scrollbar-track { background: transparent; }
+.sm-console::-webkit-scrollbar-thumb {
+  background: var(--steel-700);
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sm-rise, .sm-blink, .sm-rail-pulse, .sm-flow-dot, .sm-sweep {
+    animation: none !important;
+  }
+  * { scroll-behavior: auto !important; }
 }

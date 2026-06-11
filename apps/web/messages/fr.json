@@ -4,6 +4,11 @@
     "tagline": "Plateforme de recrutement intelligent",
     "designed_by": "Conçu par CTRL Solutions"
   },
+  "shell": {
+    "nav_agents": "Salle des opérations",
+    "nav_pipeline": "Pipeline",
+    "designed_by": "Conçu par CTRL Solutions"
+  },
   "nav": {
     "dashboard": "Tableau de bord",
     "campaigns": "Campagnes",
@@ -16,12 +21,29 @@
     "admin": "Administration"
   },
   "home": {
+    "eyebrow": "Recrutement CVAC-R — Québec",
+    "hero_line1": "Cinq agents.",
+    "hero_line2": "Un pipeline rempli.",
     "title": "Plateforme de recrutement intelligent",
-    "subtitle": "Trouver, qualifier et contacter les meilleurs frigoristes et techniciens CVAC-R au Québec.",
-    "phase": "Phase 1 — Échafaudage en cours",
+    "subtitle": "Trouver, qualifier et contacter les meilleurs frigoristes et techniciens CVAC-R au Québec — des job boards aux centres DEP, jusqu'au classement par adéquation.",
     "language_toggle": "Changer la langue",
-    "open_pipeline": "Voir le pipeline des candidats",
-    "launch_agents": "Lancer la chasse aux talents"
+    "open_pipeline": "Voir le pipeline",
+    "launch_agents": "Lancer la chasse",
+    "features": {
+      "sources": {
+        "title": "Sources sous contrôle",
+        "body": "Jobillico, Indeed, Jobboom, LinkedIn et les 7 centres DEP Réfrigération — chaque source est gouvernée par une politique explicite avant toute collecte automatisée."
+      },
+      "vetting": {
+        "title": "Conformité Québec",
+        "body": "DEP, CCQ apprenti/compagnon, ASP 30 h, SF-1, SF-2, halocarbures, permis de conduire — les signaux de qualification sont détectés et signalés au recruteur."
+      },
+      "scoring": {
+        "title": "Score consultatif",
+        "body": "Chaque candidat est classé selon une grille pondérée et explicable. L'IA recommande, le recruteur décide — toujours."
+      }
+    },
+    "advisory_note": "Le score est consultatif. Le recruteur valide les certifications avant toute décision."
   },
   "common": {
     "loading": "Chargement…",
@@ -57,19 +79,22 @@
     "card": {
       "no_name": "Sans nom",
       "no_region": "Région inconnue",
-      "no_title": "Titre inconnu"
+      "no_title": "Titre inconnu",
+      "days_suffix": "j"
     },
     "detail": {
       "title": "Détail du candidat",
       "fit_score": "Score d'adéquation",
       "fit_score_not_scored": "Non évalué",
+      "contact_section": "Coordonnées",
+      "meta_section": "Métadonnées",
       "region": "Région",
       "title_label": "Titre actuel",
       "email": "Courriel",
       "phone": "Téléphone",
       "profile_url": "URL du profil",
       "candidate_type": "Type de candidat",
-      "consent_status": "Statut de consentement",
+      "consent_status": "Consentement",
       "pipeline_status": "Étape du pipeline",
       "change_stage": "Changer d'étape",
       "created_at": "Créé le",
@@ -80,16 +105,31 @@
     }
   },
   "run": {
-    "eyebrow": "Pipeline d'agents",
+    "eyebrow": "Salle des opérations",
     "title": "Lancer une chasse aux talents",
-    "subtitle": "Cinq agents spécialisés explorent les job boards, contactent les centres DEP, dédupliquent, valident les certifications et classent les candidats. Résultat : un pipeline rempli en moins d'une minute.",
-    "launch_button": "Lancer la chasse aux talents",
+    "subtitle": "Cinq agents spécialisés explorent les job boards, contactent les centres DEP, dédupliquent, valident les certifications et classent les candidats. Résultat : un pipeline rempli en moins d'une minute.",
+    "launch_button": "Lancer la chasse",
+    "console_title": "Console des agents",
     "vetting_reminder": "Le score est consultatif. Le recruteur valide les certifications avant toute décision.",
     "header": {
-      "live": "Pipeline en cours",
-      "done": "Pipeline complété"
+      "live": "Opération en cours",
+      "done": "Opération complétée"
     },
     "discovered_count": "{count, plural, =0 {Aucun candidat découvert} =1 {1 candidat découvert} other {# candidats découverts}}",
+    "tally": {
+      "discovered": "Candidats découverts",
+      "scored": "Candidats scorés",
+      "strong": "Profils forts"
+    },
+    "counts": {
+      "candidates_created": "leads",
+      "sources_visited": "sources",
+      "schools_contacted": "centres",
+      "candidates_enriched": "enrichis",
+      "qualifications_added": "certifications",
+      "scored": "scorés",
+      "strong_matches": "profils forts"
+    },
     "status": {
       "pending": "En attente",
       "running": "En cours",
@@ -100,9 +140,9 @@
     "agents": {
       "employment_source": "Découverte d'emplois",
       "school_pipeline": "Filière scolaire",
-      "lead_enrichment": "Enrichissement des leads",
-      "candidate_vetting": "Dépistage des candidats",
-      "fit_ranking": "Classement par adéquation",
+      "lead_enrichment": "Enrichissement",
+      "candidate_vetting": "Dépistage",
+      "fit_ranking": "Classement",
       "event_discovery": "Découverte d'événements",
       "outreach": "Communications",
       "email_sync": "Synchronisation courriel",
@@ -111,7 +151,7 @@
     },
     "cta": {
       "done_subtitle": "Tous les agents ont terminé. Les candidats découverts sont dans le pipeline.",
-      "view_pipeline": "Voir le pipeline →",
+      "view_pipeline": "Voir le pipeline",
       "run_again": "Relancer une chasse",
       "retry": "Réessayer"
     },
