@@ -1,8 +1,13 @@
 # Railway service config for the Next.js frontend.
-# Railway auto-detects Next.js via Nixpacks; we just specify start command + healthcheck.
+# Node 20 is required by Next.js 16 (>=20.9.0). Pin it explicitly so Nixpacks
+# does not fall back to the auto-detected Node 18 image.
 
 [build]
 builder = "nixpacks"
+buildCommand = "npm install --include=dev && npm run build"
+
+[build.nixpacksPlan.variables]
+NODE_VERSION = "20"
 
 [deploy]
 startCommand = "npm start"
