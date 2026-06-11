@@ -20,7 +20,8 @@
     "subtitle": "Find, qualify, and contact the best refrigeration technicians and HVAC-R specialists in Quebec.",
     "phase": "Phase 1 — Scaffold in progress",
     "language_toggle": "Switch language",
-    "open_pipeline": "Open the candidate pipeline"
+    "open_pipeline": "Open the candidate pipeline",
+    "launch_agents": "Launch the talent hunt"
   },
   "common": {
     "loading": "Loading…",
@@ -76,6 +77,48 @@
       "delete_candidate": "Delete candidate",
       "delete_confirm": "Are you sure you want to delete this candidate?",
       "vetting_reminder": "Note: the fit score is advisory. The recruiter verifies certifications before any hiring decision."
+    }
+  },
+  "run": {
+    "eyebrow": "Agent pipeline",
+    "title": "Launch a talent hunt",
+    "subtitle": "Five specialized agents scan job boards, contact CFP DEP centers, dedupe, validate certifications, and rank candidates. Result: a pipeline filled in under a minute.",
+    "launch_button": "Launch the talent hunt",
+    "vetting_reminder": "The fit score is advisory. The recruiter verifies certifications before any hiring decision.",
+    "header": {
+      "live": "Pipeline running",
+      "done": "Pipeline complete"
+    },
+    "discovered_count": "{count, plural, =0 {No candidates discovered} =1 {1 candidate discovered} other {# candidates discovered}}",
+    "status": {
+      "pending": "Pending",
+      "running": "Running",
+      "completed": "Done",
+      "failed": "Failed",
+      "waiting": "Waiting to start…"
+    },
+    "agents": {
+      "employment_source": "Employment Source",
+      "school_pipeline": "School Pipeline",
+      "lead_enrichment": "Lead Enrichment",
+      "candidate_vetting": "Candidate Vetting",
+      "fit_ranking": "Fit Ranking",
+      "event_discovery": "Event Discovery",
+      "outreach": "Outreach",
+      "email_sync": "Email Sync",
+      "assistant_knowledge": "Knowledge Base",
+      "reporting": "Reporting"
+    },
+    "cta": {
+      "done_subtitle": "All agents finished. The discovered candidates are now in the pipeline.",
+      "view_pipeline": "View the pipeline →",
+      "run_again": "Run again",
+      "retry": "Retry"
+    },
+    "errors": {
+      "title": "The pipeline hit an error",
+      "agent_failed": "An agent failed. Check the log for details.",
+      "poll_failed": "Lost connection to the API. Check that the service is online."
     }
   }
 }

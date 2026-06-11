@@ -20,7 +20,8 @@
     "subtitle": "Trouver, qualifier et contacter les meilleurs frigoristes et techniciens CVAC-R au Québec.",
     "phase": "Phase 1 — Échafaudage en cours",
     "language_toggle": "Changer la langue",
-    "open_pipeline": "Voir le pipeline des candidats"
+    "open_pipeline": "Voir le pipeline des candidats",
+    "launch_agents": "Lancer la chasse aux talents"
   },
   "common": {
     "loading": "Chargement…",
@@ -76,6 +77,48 @@
       "delete_candidate": "Supprimer le candidat",
       "delete_confirm": "Êtes-vous certain·e de vouloir supprimer ce candidat?",
       "vetting_reminder": "Note : le score est consultatif. Le recruteur valide les certifications avant toute décision."
+    }
+  },
+  "run": {
+    "eyebrow": "Pipeline d'agents",
+    "title": "Lancer une chasse aux talents",
+    "subtitle": "Cinq agents spécialisés explorent les job boards, contactent les centres DEP, dédupliquent, valident les certifications et classent les candidats. Résultat : un pipeline rempli en moins d'une minute.",
+    "launch_button": "Lancer la chasse aux talents",
+    "vetting_reminder": "Le score est consultatif. Le recruteur valide les certifications avant toute décision.",
+    "header": {
+      "live": "Pipeline en cours",
+      "done": "Pipeline complété"
+    },
+    "discovered_count": "{count, plural, =0 {Aucun candidat découvert} =1 {1 candidat découvert} other {# candidats découverts}}",
+    "status": {
+      "pending": "En attente",
+      "running": "En cours",
+      "completed": "Terminé",
+      "failed": "Échec",
+      "waiting": "En attente de démarrage…"
+    },
+    "agents": {
+      "employment_source": "Découverte d'emplois",
+      "school_pipeline": "Filière scolaire",
+      "lead_enrichment": "Enrichissement des leads",
+      "candidate_vetting": "Dépistage des candidats",
+      "fit_ranking": "Classement par adéquation",
+      "event_discovery": "Découverte d'événements",
+      "outreach": "Communications",
+      "email_sync": "Synchronisation courriel",
+      "assistant_knowledge": "Base de connaissances",
+      "reporting": "Rapports"
+    },
+    "cta": {
+      "done_subtitle": "Tous les agents ont terminé. Les candidats découverts sont dans le pipeline.",
+      "view_pipeline": "Voir le pipeline →",
+      "run_again": "Relancer une chasse",
+      "retry": "Réessayer"
+    },
+    "errors": {
+      "title": "Le pipeline a rencontré une erreur",
+      "agent_failed": "Un agent a échoué. Voir les détails dans le journal.",
+      "poll_failed": "Connexion perdue avec l'API. Vérifiez que le service est en ligne."
     }
   }
 }

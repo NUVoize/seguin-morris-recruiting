@@ -3,8 +3,9 @@ import {Link} from '@/i18n/navigation';
 import {routing} from '@/i18n/routing';
 
 /**
- * Bilingual landing page. The "Open the candidate pipeline" CTA jumps to the
- * real Kanban board which is the first piece of actual recruiter UI.
+ * Bilingual landing page. Two top-level CTAs:
+ *   /run        â€” live agent theater (the headline demo)
+ *   /candidates â€” recruiter pipeline Kanban
  */
 export default async function HomePage({
   params
@@ -31,31 +32,37 @@ export default async function HomePage({
           {tHome('subtitle')}
         </p>
 
-        <div className="mt-10 flex flex-col items-center gap-6">
+        <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <Link
+            href="/run"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-neutral-700 sm:w-auto"
+          >
+            {tHome('launch_agents')}
+            <span aria-hidden>{'\u2192'}</span>
+          </Link>
           <Link
             href="/candidates"
-            className="inline-flex items-center gap-2 rounded-lg bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-neutral-700"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-5 py-2.5 text-sm font-medium text-neutral-800 shadow-sm transition hover:bg-neutral-50 sm:w-auto"
           >
             {tHome('open_pipeline')}
-            <span aria-hidden>→</span>
           </Link>
+        </div>
 
-          <div className="flex items-center justify-center gap-3 text-sm">
-            {routing.locales.map((alt) => (
-              <Link
-                key={alt}
-                href="/"
-                locale={alt}
-                className={
-                  alt === locale
-                    ? 'rounded-full bg-neutral-900 px-4 py-1.5 text-white'
-                    : 'rounded-full border border-neutral-300 px-4 py-1.5 text-neutral-700 hover:bg-neutral-100'
-                }
-              >
-                {alt.toUpperCase()}
-              </Link>
-            ))}
-          </div>
+        <div className="mt-10 flex items-center justify-center gap-3 text-sm">
+          {routing.locales.map((alt) => (
+            <Link
+              key={alt}
+              href="/"
+              locale={alt}
+              className={
+                alt === locale
+                  ? 'rounded-full bg-neutral-900 px-4 py-1.5 text-white'
+                  : 'rounded-full border border-neutral-300 px-4 py-1.5 text-neutral-700 hover:bg-neutral-100'
+              }
+            >
+              {alt.toUpperCase()}
+            </Link>
+          ))}
         </div>
 
         <footer className="mt-16 text-xs text-neutral-500">

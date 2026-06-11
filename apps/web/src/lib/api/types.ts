@@ -3,7 +3,7 @@
  *
  * These should track the backend `app/schemas/*.py` and `app/models/enums.py`.
  * If/when the team grows, generating these from OpenAPI is the right next step
- * (FastAPI exposes /api/openapi.json) — for now we hand-write the small surface.
+ * (FastAPI exposes /api/openapi.json) â€” for now we hand-write the small surface.
  */
 
 // ---------- Enums (mirror app/models/enums.py) ----------
@@ -33,6 +33,23 @@ export type SourceType =
   | 'company_site'
   | 'government'
   | 'manual';
+
+export const AGENT_TYPES = [
+  'employment_source',
+  'school_pipeline',
+  'event_discovery',
+  'lead_enrichment',
+  'candidate_vetting',
+  'fit_ranking',
+  'outreach',
+  'email_sync',
+  'assistant_knowledge',
+  'reporting',
+] as const;
+
+export type AgentType = (typeof AGENT_TYPES)[number];
+
+export type AgentRunStatus = 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
 
 // ---------- Resources ----------
 
@@ -99,4 +116,40 @@ export interface LeadSource {
   last_checked_at: string | null;
   created_at: string;
   updated_at: string;
+}
+
+// ---------- Agent runs (Phase 3) ----------
+
+export interface AgentStep {
+  ts: string;
+  icon: string;
+  message: string;
+  detail?: Record<string, unknown> | null;
+}
+
+export interface AgentRunOutput {
+  agent_type: string;
+  display_name: string;
+  icon: string;
+  status: string;
+  steps: AgentStep[];
+  counts: Record<string, number>;
+}
+
+export interface AgentRun {
+  id: string;
+  campaign_id: string | null;
+  agent_type: AgentType;
+  status: AgentRunStatus;
+  started_at: string | null;
+  completed_at: string | null;
+  output: AgentRunOutput | null;
+  error_log: Record<string, unknown> | null;
+}
+
+export interface TriggerAgentRunResponse {
+  started_at: string;
+  campaign_id: string | null;
+  agents: string[];
+  message: string;
 }
