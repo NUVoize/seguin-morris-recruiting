@@ -138,7 +138,7 @@
       "waiting": "Waiting to start…"
     },
     "agents": {
-      "employment_source": "Job Discovery",
+      "employment_source": "Candidate Sourcing",
       "school_pipeline": "School Pipeline",
       "lead_enrichment": "Enrichment",
       "candidate_vetting": "Vetting",

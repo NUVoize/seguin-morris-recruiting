@@ -138,7 +138,7 @@
       "waiting": "En attente de démarrage…"
     },
     "agents": {
-      "employment_source": "Découverte d'emplois",
+      "employment_source": "Découverte de candidats",
       "school_pipeline": "Filière scolaire",
       "lead_enrichment": "Enrichissement",
       "candidate_vetting": "Dépistage",
