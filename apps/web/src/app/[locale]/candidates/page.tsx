@@ -1,4 +1,5 @@
 import {setRequestLocale} from 'next-intl/server';
+import {cookies} from 'next/headers';
 import {Suspense} from 'react';
 
 import {apiRequest, type Candidate} from '@/lib/api';
@@ -12,13 +13,14 @@ interface Props {
 export default async function CandidatesPage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
+  const token = (await cookies()).get('sm_session')?.value ?? null;
 
   // Server-side fetch — runs at request time, no cache (no-store via client default).
   let initial: Candidate[] = [];
   let fetchError: string | null = null;
 
   try {
-    initial = await apiRequest<Candidate[]>('/candidates', {query: {limit: 200}});
+    initial = await apiRequest<Candidate[]>('/candidates', {query: {limit: 200}, token});
   } catch (err) {
     fetchError = err instanceof Error ? err.message : 'Unknown error';
   }

@@ -9,6 +9,23 @@
     "nav_pipeline": "Pipeline",
     "nav_schools": "Schools",
     "nav_sources": "Sources",
+    "sign_out": "Sign out",
+    "designed_by": "Designed by CTRL Solutions"
+  },
+  "login": {
+    "eyebrow": "HVAC-R Recruiting — Quebec",
+    "brand_line1": "Five agents.",
+    "brand_line2": "One full pipeline.",
+    "title": "Sign in",
+    "subtitle": "Internal platform — access reserved for the Seguin Morris team.",
+    "email_label": "Email",
+    "email_placeholder": "first.last@seguinmorris.com",
+    "password_label": "Password",
+    "sign_in": "Sign in",
+    "signing_in": "Signing in…",
+    "error_invalid": "Invalid email or password.",
+    "error_generic": "Could not sign in. Check that the service is online.",
+    "internal_note": "Seguin Morris internal tool. Every sign-in is written to the audit log.",
     "designed_by": "Designed by CTRL Solutions"
   },
   "nav": {

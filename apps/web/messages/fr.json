@@ -9,6 +9,23 @@
     "nav_pipeline": "Pipeline",
     "nav_schools": "Écoles",
     "nav_sources": "Sources",
+    "sign_out": "Déconnexion",
+    "designed_by": "Conçu par CTRL Solutions"
+  },
+  "login": {
+    "eyebrow": "Recrutement CVAC-R — Québec",
+    "brand_line1": "Cinq agents.",
+    "brand_line2": "Un pipeline rempli.",
+    "title": "Connexion",
+    "subtitle": "Plateforme interne — accès réservé à l'équipe Seguin Morris.",
+    "email_label": "Courriel",
+    "email_placeholder": "prenom.nom@seguinmorris.com",
+    "password_label": "Mot de passe",
+    "sign_in": "Se connecter",
+    "signing_in": "Connexion…",
+    "error_invalid": "Courriel ou mot de passe invalide.",
+    "error_generic": "Connexion impossible. Vérifiez que le service est en ligne.",
+    "internal_note": "Outil interne Seguin Morris. Chaque connexion est consignée au journal d'audit.",
     "designed_by": "Conçu par CTRL Solutions"
   },
   "nav": {

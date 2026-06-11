@@ -1,4 +1,5 @@
 import {getTranslations, setRequestLocale} from 'next-intl/server';
+import {cookies} from 'next/headers';
 import clsx from 'clsx';
 
 import {apiRequest, type SchoolProgram} from '@/lib/api';
@@ -34,11 +35,12 @@ export default async function SchoolsPage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
   const t = await getTranslations('schools');
+  const token = (await cookies()).get('sm_session')?.value ?? null;
 
   let programs: SchoolProgram[] = [];
   let fetchError: string | null = null;
   try {
-    programs = await apiRequest<SchoolProgram[]>('/programs', {query: {limit: 200}});
+    programs = await apiRequest<SchoolProgram[]>('/programs', {query: {limit: 200}, token});
   } catch (err) {
     fetchError = err instanceof Error ? err.message : 'Unknown error';
   }

@@ -13,8 +13,9 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.api.deps import require_permission
 from app.core.database import get_db
-from app.models import AuditLog, LeadSource
+from app.models import AuditLog, LeadSource, User
 from app.models.enums import SourceType
 from app.schemas import LeadSourceCreate, LeadSourceRead, LeadSourceUpdate
 
@@ -67,6 +68,7 @@ def update_source(
     source_id: uuid.UUID,
     payload: LeadSourceUpdate,
     db: Session = Depends(get_db),
+    current_user: User = Depends(require_permission("can_manage_sources")),
 ) -> LeadSource:
     source = db.get(LeadSource, source_id)
     if source is None:
@@ -78,7 +80,7 @@ def update_source(
     if "allowed_to_scrape" in updates and updates["allowed_to_scrape"] != source.allowed_to_scrape:
         db.add(
             AuditLog(
-                user_id=None,  # auth placeholder in v1; real user once login ships
+                user_id=current_user.id,
                 action="source.scrape_policy_changed",
                 entity_type="lead_source",
                 entity_id=source.id,
@@ -86,6 +88,7 @@ def update_source(
                     "source_name": source.name,
                     "from": source.allowed_to_scrape,
                     "to": updates["allowed_to_scrape"],
+                    "by": current_user.email,
                 },
             )
         )

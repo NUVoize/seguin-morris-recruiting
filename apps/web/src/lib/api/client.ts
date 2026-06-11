@@ -11,6 +11,8 @@ const RAW_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8000/
 // Strip trailing slash so path joins are predictable.
 const API_BASE = RAW_BASE.replace(/\/$/, '');
 
+import {clearSessionToken, getSessionToken} from '@/lib/session';
+
 export class ApiError extends Error {
   constructor(
     public readonly status: number,
@@ -30,6 +32,9 @@ interface RequestOptions {
   signal?: AbortSignal;
   // Server-side calls in Next.js need cache control; client calls don't care.
   cache?: RequestCache;
+  // Server components pass the session token explicitly (read via next/headers).
+  // Client-side calls leave it undefined; the cookie is read automatically.
+  token?: string | null;
 }
 
 function buildUrl(path: string, query?: RequestOptions['query']): string {
@@ -46,9 +51,16 @@ function buildUrl(path: string, query?: RequestOptions['query']): string {
 
 export async function apiRequest<T>(path: string, opts: RequestOptions = {}): Promise<T> {
   const url = buildUrl(path, opts.query);
+
+  // Auth: explicit token (server-side) wins; otherwise read the session cookie (client-side).
+  const token = opts.token ?? getSessionToken();
+  const headers: Record<string, string> = {};
+  if (opts.body !== undefined) headers['Content-Type'] = 'application/json';
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
   const init: RequestInit = {
     method: opts.method ?? 'GET',
-    headers: opts.body ? {'Content-Type': 'application/json'} : undefined,
+    headers: Object.keys(headers).length > 0 ? headers : undefined,
     body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined,
     signal: opts.signal,
     cache: opts.cache ?? 'no-store'
@@ -59,6 +71,13 @@ export async function apiRequest<T>(path: string, opts: RequestOptions = {}): Pr
     response = await fetch(url, init);
   } catch (err) {
     throw new ApiError(0, url, `Network error: ${(err as Error).message}`);
+  }
+
+  // Expired/invalid session in the browser: clear it and send the user to login.
+  if (response.status === 401 && typeof window !== 'undefined' && !path.startsWith('/auth/')) {
+    clearSessionToken();
+    const locale = window.location.pathname.split('/')[1] || 'fr';
+    window.location.assign(`/${locale}/login`);
   }
 
   if (response.status === 204) {

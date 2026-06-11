@@ -17,8 +17,9 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.agents import DEFAULT_PIPELINE, run_pipeline
+from app.api.deps import require_permission
 from app.core.database import get_db
-from app.models import AgentRun
+from app.models import AgentRun, AuditLog, User
 from app.schemas.agent_run import AgentRunRead, TriggerAgentRunResponse
 
 logger = logging.getLogger(__name__)
@@ -31,7 +32,11 @@ router = APIRouter(prefix="/agent-runs", tags=["agent-runs"])
     status_code=status.HTTP_202_ACCEPTED,
     summary="Trigger a pipeline run",
 )
-async def trigger_run(campaign_id: UUID | None = None) -> TriggerAgentRunResponse:
+async def trigger_run(
+    campaign_id: UUID | None = None,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_permission("can_run_agents")),
+) -> TriggerAgentRunResponse:
     """Kick off the agent pipeline as a fire-and-forget asyncio task.
 
     Returns 202 immediately. The UI is expected to poll GET /api/agent-runs
@@ -40,6 +45,16 @@ async def trigger_run(campaign_id: UUID | None = None) -> TriggerAgentRunRespons
     For mockup mode the orchestrator runs in-process via asyncio.create_task.
     Production deployment moves this to Celery + Redis (Phase 6+).
     """
+
+    db.add(
+        AuditLog(
+            user_id=current_user.id,
+            action="agents.pipeline_triggered",
+            entity_type="agent_run",
+            audit_metadata={"campaign_id": str(campaign_id) if campaign_id else None},
+        )
+    )
+    db.commit()
 
     # Fire-and-forget; the orchestrator opens its own DB session.
     task = asyncio.create_task(run_pipeline(campaign_id=campaign_id))

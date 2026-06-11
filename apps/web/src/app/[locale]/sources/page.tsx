@@ -1,4 +1,5 @@
 import {setRequestLocale} from 'next-intl/server';
+import {cookies} from 'next/headers';
 
 import {apiRequest, type LeadSource} from '@/lib/api';
 import {SourceDirectory} from '@/components/sources/SourceDirectory';
@@ -10,11 +11,12 @@ interface Props {
 export default async function SourcesPage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
+  const token = (await cookies()).get('sm_session')?.value ?? null;
 
   let initial: LeadSource[] = [];
   let fetchError: string | null = null;
   try {
-    initial = await apiRequest<LeadSource[]>('/sources', {query: {limit: 100}});
+    initial = await apiRequest<LeadSource[]>('/sources', {query: {limit: 100}, token});
   } catch (err) {
     fetchError = err instanceof Error ? err.message : 'Unknown error';
   }

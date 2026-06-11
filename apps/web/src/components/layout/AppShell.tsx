@@ -5,6 +5,7 @@ import {useTranslations} from 'next-intl';
 import {Link, usePathname} from '@/i18n/navigation';
 import clsx from 'clsx';
 import {LocaleSwitch} from './LocaleSwitch';
+import {UserMenu} from './UserMenu';
 
 /**
  * Shared app shell: top bar with the Seguin Morris wordmark, primary nav,
@@ -14,6 +15,11 @@ import {LocaleSwitch} from './LocaleSwitch';
 export function AppShell({children}: {children: React.ReactNode}) {
   const t = useTranslations('shell');
   const pathname = usePathname();
+
+  // The login screen stands alone — no chrome.
+  if (pathname === '/login') {
+    return <div className="flex min-h-screen flex-col">{children}</div>;
+  }
 
   const links = [
     {href: '/run' as const, label: t('nav_agents')},
@@ -60,7 +66,8 @@ export function AppShell({children}: {children: React.ReactNode}) {
             })}
           </nav>
 
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-3">
+            <UserMenu />
             <LocaleSwitch />
           </div>
         </div>

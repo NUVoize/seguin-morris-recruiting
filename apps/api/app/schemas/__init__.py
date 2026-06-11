@@ -9,6 +9,7 @@ Three patterns per resource:
 
 from app.schemas.campaign import CampaignCreate, CampaignRead, CampaignUpdate
 from app.schemas.candidate import CandidateCreate, CandidateRead, CandidateUpdate
+from app.schemas.auth import AuthUser, LoginRequest, TokenResponse
 from app.schemas.school import SchoolProgramRead
 from app.schemas.source import LeadSourceCreate, LeadSourceRead, LeadSourceUpdate
 
@@ -21,6 +22,9 @@ __all__ = [
     "CandidateUpdate",
     "LeadSourceCreate",
     "SchoolProgramRead",
+    "AuthUser",
+    "LoginRequest",
+    "TokenResponse",
     "LeadSourceRead",
     "LeadSourceUpdate",
 ]
