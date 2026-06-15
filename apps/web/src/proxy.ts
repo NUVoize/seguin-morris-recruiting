@@ -6,11 +6,21 @@ const intlMiddleware = createMiddleware(routing);
 
 const SESSION_COOKIE = 'sm_session';
 
+// Auth kill-switch, mirrors the API's AUTH_ENABLED. When off (dev default),
+// no route is gated and /login still works if visited directly. Set
+// NEXT_PUBLIC_AUTH_ENABLED=true to re-arm (always set it in production).
+const AUTH_ENABLED = process.env.NEXT_PUBLIC_AUTH_ENABLED === 'true';
+
 // App areas that require a signed-in session. The landing page stays public.
 const PROTECTED = ['/run', '/candidates', '/schools', '/sources'];
 
 export default function proxy(request: NextRequest) {
   const {pathname} = request.nextUrl;
+
+  if (!AUTH_ENABLED) {
+    // Dev: skip all auth gating, just run locale handling.
+    return intlMiddleware(request);
+  }
 
   // Strip the locale prefix (/fr/run -> /run) to test against PROTECTED.
   const segments = pathname.split('/').filter(Boolean);

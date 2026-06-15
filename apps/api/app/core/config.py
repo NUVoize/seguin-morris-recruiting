@@ -26,6 +26,11 @@ class Settings(BaseSettings):
 
     # --- Application ---
     app_env: Literal["development", "staging", "production"] = "development"
+
+    # Auth kill-switch. Leave OFF in dev (no login wall, no friction); the
+    # full login/RBAC/audit code stays in place and is re-armed by setting
+    # AUTH_ENABLED=true on the environment (always set it in production).
+    auth_enabled: bool = False
     app_name: str = "seguin-morris-recruiting"
     app_host: str = "0.0.0.0"
     app_port: int = 8000
